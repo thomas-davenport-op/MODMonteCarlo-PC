@@ -15,7 +15,7 @@ CXXFLAGS= -std=c++11
 
 
 all: examples/generateEvents.cc
-	$(CXX) $(CXXFLAGS) -I$(PYTHIA_INC) -I$(HEPMC2_INCLUDE) examples/generateEvents.cc -o bin/generateEvents -lpythia8 -lHepMC -ldl -L$(PYTHIA_LIB) -L$(HEPMC2_LIB)
+	$(CXX) $(CXXFLAGS) -I$(PYTHIA_INC) -I$(HEPMC2_INCLUDE) examples/generateEvents.cc -o bin/generateEvents -lpythia8 -ldl -L$(PYTHIA_LIB) -lHepMC -L$(HEPMC2_LIB) -ldl
 
 
 clean:

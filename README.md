@@ -27,3 +27,6 @@ Things to do:
 
 ### Troubleshooting:
   `/usr/bin/ld: cannot find -lPythia` can be fixed by adding `export LD_LIBRARY_PATH=/home/aashish/pythia8212/lib` to your environment variables.
+
+  Sometimes adding them to `~/.bashrc~ doesn't work. So enter the following manually:
+  `export LD_LIBRARY_PATH=/home/aashish/hepmc/lib:/home/aashish/pythia8212/lib`
