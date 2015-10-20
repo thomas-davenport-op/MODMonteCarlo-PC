@@ -14,9 +14,12 @@ CXXFLAGS= -std=c++11
 	 # -L$(HEPMC2_LIB) -Wl,-rpath $(HEPMC2_LIB) -lHepMC
 
 
-all: examples/generateEvents.cc
-	$(CXX) $(CXXFLAGS) -I$(PYTHIA_INC) -I$(HEPMC2_INCLUDE) examples/generateEvents.cc -o bin/generateEvents -lpythia8 -ldl -L$(PYTHIA_LIB) -lHepMC -L$(HEPMC2_LIB) -ldl
+# all: examples/generateEvents.cc
+	# $(CXX) $(CXXFLAGS) -I$(PYTHIA_INC) -I$(HEPMC2_INCLUDE) examples/generateEvents.cc -o bin/generateEvents -lpythia8 -ldl -L$(PYTHIA_LIB) -lHepMC -L$(HEPMC2_LIB) -ldl
 
+
+all: examples/parseHepMC.cc
+	$(CXX) $(CXXFLAGS) -I$(HEPMC2_INCLUDE) examples/parseHepMC.cc -o bin/parseHepMC -lHepMC -L$(HEPMC2_LIB) -ldl
 
 clean:
 	rm bin/generateEvents
