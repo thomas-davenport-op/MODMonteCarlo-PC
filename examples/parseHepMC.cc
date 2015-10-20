@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
 
     HepMC::GenEvent::particle_const_iterator it; 
 
-    output_stream << "BeginEvent Version 4 Pythia_8212 TruthParticles" << endl;
+    output_stream << "BeginEvent Version 1 Pythia_8212 TruthParticles" << endl;
     
     output_stream << "#TPFC" << "              px              py              pz          energy   pdgId" << endl;  
     
