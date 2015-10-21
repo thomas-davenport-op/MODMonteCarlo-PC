@@ -1,6 +1,8 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <stdexcept>
+
 
 #include "HepMC/IO_GenEvent.h"
 
@@ -25,8 +27,8 @@ int main(int argc, char* argv[]) {
   string input_file_name = argv[1];
   string output_file_name = argv[2];
 
-  // parseHepMC(input_file_name, output_file_name);
-  zg_stuff();
+  parseHepMC(input_file_name, output_file_name);
+  // zg_stuff();
 
   return 0;
 }
@@ -85,11 +87,15 @@ void parseHepMC(string input_file_name, string output_file_name) {
       
     }
 
-    if ( abs(net_energy - 7000) > 1 )
-      cout << "ERROR: Energy not conserved!" << endl;
+    if ( abs(net_energy - 7000) > 1 ) {
+      cout << "ERROR:: Energy not conserved!" << endl;
+      throw std::runtime_error( "ERROR:: Energy not conserved!" );
+    }
     
-    if ((abs(net_px) > 1e-3) || (abs(net_py) > 1e-3) || (abs(net_pz) > 1e-3))
-      cout << "ERROR: Momentum not conserved!" << endl;
+    if ((abs(net_px) > 1e-3) || (abs(net_py) > 1e-3) || (abs(net_pz) > 1e-3)) {
+      cout << "ERROR:: Momentum not conserved!" << endl;
+      throw std::runtime_error( "ERROR:: Momentum not conserved!" );
+    }
 
     output_stream << "EndEvent" << endl;
     
@@ -162,16 +168,9 @@ void zg_stuff() {
     std::vector<fastjet::PseudoJet> jets = cs.inclusive_jets(150);
     
 
-    if (i == 0) {
-      for (int j = 0; j < jets.size(); j++) {
-        cout << jets[j].pt() << endl;  
-      }
-      
-    }
-
     sort(jets.begin(), jets.end(), pseudojets_compare);
 
-    // cout << jets[0].E() << endl;
+    cout << jets[0].E() << endl;
 
     fastjet::contrib::SoftDrop soft_drop(0.0, 0.05);
     fastjet::PseudoJet soft_drop_jet = soft_drop(jets[0]);
