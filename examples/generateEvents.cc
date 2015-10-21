@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
   for (int iEvent = 0; iEvent < nEvent; ++iEvent) {
 
     // Generate event.
-    if (!pythia.next()) {
+    if ( ! pythia.next()) {
 
       // If failure because reached end of file then exit event loop.
       if (pythia.info.atEndOfFile()) {

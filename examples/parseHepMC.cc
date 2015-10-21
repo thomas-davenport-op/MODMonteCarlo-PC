@@ -60,13 +60,20 @@ void parseHepMC(string input_file_name, string output_file_name) {
     output_stream << "# TPFC" << "              px              py              pz          energy   pdgId" << endl;  
     
 
-    int particleCount = 0;
+    double net_px = 0;
+    double net_py = 0;
+    double net_pz = 0;
+    double net_energy = 0;
 
     for ( it = event->particles_begin(); it != event->particles_end(); it++ ) {
       
-      // Ignore the first two particles- they are the two incoming protons.
+      if (( ! ( * it)->is_beam() ) && (( * it)->status() == 1)) {
+        
+        net_px += ( * it)->momentum().px();
+        net_py += ( * it)->momentum().py();
+        net_pz += ( * it)->momentum().pz();
+        net_energy += ( * it)->momentum().e();
 
-      if (particleCount > 1) {
         output_stream << "  TPFC"
         << setw(16) << fixed << setprecision(8) << ( * it)->momentum().px()
         << setw(16) << fixed << setprecision(8) << ( * it)->momentum().py()
@@ -76,9 +83,14 @@ void parseHepMC(string input_file_name, string output_file_name) {
         << endl;
       }
       
-      particleCount++;
     }
+
+    if ( abs(net_energy - 7000) > 1 )
+      cout << "ERROR: Energy not conserved!" << endl;
     
+    if ((abs(net_px) > 1e-3) || (abs(net_py) > 1e-3) || (abs(net_pz) > 1e-3))
+      cout << "ERROR: Momentum not conserved!" << endl;
+
     output_stream << "EndEvent" << endl;
     
     delete event;
@@ -145,7 +157,6 @@ void zg_stuff() {
 
   for (int i = 0; i < events.size(); i++) {
 
-    // cout << "hello" << endl;
   
     fastjet::ClusterSequence cs(events[i], jet_def);
     std::vector<fastjet::PseudoJet> jets = cs.inclusive_jets(150);
