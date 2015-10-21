@@ -6,12 +6,16 @@ HEPMC2_INCLUDE=/home/aashish/hepmc/include
 HEPMC2_LIB=/home/aashish/hepmc/lib
 
 
+PATH_TO_FASTJET = /home/aashish/root/macros/fastjet-install/bin/fastjet-config
+INCLUDE_FASTJET = /home/aashish/root/macros/fastjet-install/include
+
+FASTINC = `$(PATH_TO_FASTJET) --cxxflags`
+FASTLIB = `$(PATH_TO_FASTJET) --libs --plugins` -lRecursiveTools
+
+
 CXX = g++
-# CXXFLAGS= -Wall -Woverloaded-virtual -g -std=c++11
 CXXFLAGS= -std=c++11
 
-# $(CXX) $^ -o $@ -I$(HEPMC2_INCLUDE) $(CXX_COMMON)\
-	 # -L$(HEPMC2_LIB) -Wl,-rpath $(HEPMC2_LIB) -lHepMC
 
 
 
@@ -21,7 +25,7 @@ CXXFLAGS= -std=c++11
 
 
 all: examples/parseHepMC.cc
-	$(CXX) $(CXXFLAGS) -I$(HEPMC2_INCLUDE) examples/parseHepMC.cc -o bin/parseHepMC -lHepMC -L$(HEPMC2_LIB) -ldl
+	$(CXX) $(CXXFLAGS) -I$(HEPMC2_INCLUDE) examples/parseHepMC.cc -o bin/parseHepMC -lHepMC -L$(HEPMC2_LIB) -ldl -I$(INCLUDE_FASTJET) `$(PATH_TO_FASTJET) --libs --plugins` -lRecursiveTools
 
 
 

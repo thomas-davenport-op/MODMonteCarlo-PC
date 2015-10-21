@@ -4,14 +4,35 @@
 
 #include "HepMC/IO_GenEvent.h"
 
+#include "fastjet/ClusterSequence.hh"
+#include "fastjet/contrib/SoftDrop.hh"
+
 
 using namespace std;
 using namespace HepMC;
+
+
+
+
+bool pseudojets_compare(fastjet::PseudoJet a, fastjet::PseudoJet b);
+
+void parseHepMC(string input_file_name, string output_file_name);
+
+void zg_stuff();
 
 int main(int argc, char* argv[]) {
 
   string input_file_name = argv[1];
   string output_file_name = argv[2];
+
+  // parseHepMC(input_file_name, output_file_name);
+  zg_stuff();
+
+  return 0;
+}
+
+
+void parseHepMC(string input_file_name, string output_file_name) {
 
   ofstream output_file(output_file_name, ios::out);
 
@@ -68,7 +89,93 @@ int main(int argc, char* argv[]) {
   output_file << output_stream.rdbuf();
 
   std::cout << icount << " events found. And I'm done." << std::endl;
-  
+}
 
-  return 0;
+
+
+void zg_stuff() {
+
+  ifstream data_stream("data/pythia_mod.dat");
+  ofstream output_stream("data/zg_output.dat", ios::out);
+
+  std::vector<std::vector<fastjet::PseudoJet>> events;
+  std::vector<fastjet::PseudoJet> particles;
+
+  string line;
+  while(getline(data_stream, line)) {
+    istringstream iss(line);
+
+    int version;
+    string tag, version_keyword, a, b;
+
+    iss >> tag;      
+    istringstream stream(line);
+
+   
+
+    if (tag == "TPFC") {
+      try {
+
+        string tag;
+        double px, py, pz, energy;
+        int pdgId;
+
+        iss >> tag >> px >> py >> pz >> energy >> pdgId;
+
+        particles.push_back(fastjet::PseudoJet(px, py, pz, energy));
+
+        // cout << particles.size() << endl;
+        // cout << "Adding a particle." << endl;
+      }
+      catch (exception& e) {
+        throw runtime_error("Invalid file format PFC! Something's wrong with the way PFCs have been written.");
+      }
+    }
+    else if (tag == "EndEvent") {
+      // cout << "End of Event!" << endl;
+      events.push_back(particles);
+      // cout << "particles before: " << particles.size() << endl;
+      particles.clear(); 
+      // cout << "particles after:  " << particles.size() << endl;
+    }
+  }
+
+
+  fastjet::JetDefinition jet_def(fastjet::antikt_algorithm, 0.5);
+
+  for (int i = 0; i < events.size(); i++) {
+
+    // cout << "hello" << endl;
+  
+    fastjet::ClusterSequence cs(events[i], jet_def);
+    std::vector<fastjet::PseudoJet> jets = cs.inclusive_jets(150);
+    
+
+    if (i == 0) {
+      for (int j = 0; j < jets.size(); j++) {
+        cout << jets[j].pt() << endl;  
+      }
+      
+    }
+
+    sort(jets.begin(), jets.end(), pseudojets_compare);
+
+    // cout << jets[0].E() << endl;
+
+    fastjet::contrib::SoftDrop soft_drop(0.0, 0.05);
+    fastjet::PseudoJet soft_drop_jet = soft_drop(jets[0]);
+    double zg_05 = soft_drop_jet.structure_of<fastjet::contrib::SoftDrop>().symmetry();
+
+    output_stream << zg_05 << endl;
+
+  }
+
+}
+
+
+
+bool pseudojets_compare(fastjet::PseudoJet a, fastjet::PseudoJet b) {
+   if (a.pt() > b.pt())
+      return true;
+   return false;
 }
