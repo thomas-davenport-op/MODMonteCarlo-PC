@@ -36,16 +36,26 @@ int main(int argc, char* argv[]) {
 
     output_stream << "BeginEvent Version 1 Pythia_8212 TruthParticles" << endl;
     
-    output_stream << "#TPFC" << "              px              py              pz          energy   pdgId" << endl;  
+    output_stream << "# TPFC" << "              px              py              pz          energy   pdgId" << endl;  
     
+
+    int particleCount = 0;
+
     for ( it = event->particles_begin(); it != event->particles_end(); it++ ) {
-      output_stream << " TPFC"
+      
+      // Ignore the first two particles- they are the two incoming protons.
+
+      if (particleCount > 1) {
+        output_stream << "  TPFC"
         << setw(16) << fixed << setprecision(8) << ( * it)->momentum().px()
         << setw(16) << fixed << setprecision(8) << ( * it)->momentum().py()
         << setw(16) << fixed << setprecision(8) << ( * it)->momentum().pz()
         << setw(16) << fixed << setprecision(8) << ( * it)->momentum().e()
         << setw(8) << noshowpos << ( * it)->pdg_id()
         << endl;
+      }
+      
+      particleCount++;
     }
     
     output_stream << "EndEvent" << endl;

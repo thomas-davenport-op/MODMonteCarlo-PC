@@ -10,13 +10,12 @@ int main(int argc, char* argv[]) {
 
   // Interface for conversion from Pythia8::Event to HepMC event.
   HepMC::Pythia8ToHepMC ToHepMC;
-
-  // Specify file where HepMC events will be stored.
-  HepMC::IO_GenEvent ascii_io(argv[2], std::ios::out);
   
   // Read the card file.
   pythia.readFile(argv[1]);
 
+  // Specify file where HepMC events will be stored.
+  HepMC::IO_GenEvent ascii_io(argv[2], std::ios::out);
 
   pythia.init();
   
