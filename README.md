@@ -24,6 +24,10 @@ Things to do:
   `g++ -std=c++11 -I$PYTHIA8/include generateEvents.cc -o generateEvents -L$PYTHIA8/lib -lpythia8 -ldl`
 
 
+## Delphes
+- Looks like you need ROOT 6 for Delphes. Not that you should be using ROOT 5. The only reason it matters is that, for some werid unexplained reason, the **default** version in my Ubuntu distro seems to be 5. Just typing in root loads ROOT 5. So to make sure that during Delphes' compilation, classes from ROOT 6 are loaded instead of from ROOT 5, you need to do the whole `. bin/thisroot.sh` thing. An alternative (and much better) way to do this is remove ROOT 5 and install ROOT 6 in something like `/usr/local/` but a superposition of laziness and `if it ain't broke, don't fix it` is preventing me from doing that. Do that asap.
+
+
 
 ### Troubleshooting:
   `/usr/bin/ld: cannot find -lPythia` can be fixed by adding `export LD_LIBRARY_PATH=/home/aashish/pythia8212/lib` to your environment variables.
