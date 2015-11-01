@@ -2,7 +2,6 @@
 *.png
 bin/*
 !bin/*.txt
-./data
 ./plots
 *.d
 *.pcm
