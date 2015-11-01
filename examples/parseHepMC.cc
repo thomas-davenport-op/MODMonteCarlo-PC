@@ -27,8 +27,8 @@ int main(int argc, char* argv[]) {
   string input_file_name = argv[1];
   string output_file_name = argv[2];
 
-  // parseHepMC(input_file_name, output_file_name);
-  zg_stuff();
+  parseHepMC(input_file_name, output_file_name);
+  // zg_stuff();
 
   return 0;
 }
@@ -57,7 +57,8 @@ void parseHepMC(string input_file_name, string output_file_name) {
 
     HepMC::GenEvent::particle_const_iterator it; 
 
-    output_stream << "BeginEvent Version 1 Pythia_8212 TruthParticles" << endl;
+    output_stream << "BeginEvent Version 1 Truth Pythia_8212_Dijet100" << endl;
+    
     
     double net_px = 0;
     double net_py = 0;
