@@ -142,7 +142,8 @@ void parseHepMC(string input_file_name, string output_file_name) {
 
 void zg_stuff() {
 
-  ifstream data_stream("data/pythia_mod.dat");
+  // ifstream data_stream("data/pythia_output.mod");
+  ifstream data_stream("data/delphes_output.mod");
   ofstream output_stream("data/zg_output.dat", ios::out);
 
   std::vector<std::vector<fastjet::PseudoJet>> events;
@@ -152,13 +153,14 @@ void zg_stuff() {
   while(getline(data_stream, line)) {
     istringstream iss(line);
 
+
     int version;
     string tag, version_keyword, a, b;
 
     iss >> tag;      
     istringstream stream(line);
 
-    if (tag == "TPFC") {
+    if ( (tag == "TPFC") || (tag == "MPFC") ) {
       try {
 
         string tag;

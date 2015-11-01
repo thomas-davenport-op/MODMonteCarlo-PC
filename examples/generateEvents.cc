@@ -30,7 +30,7 @@ int main(int argc, char* argv[]) {
 
       // If failure because reached end of file then exit event loop.
       if (pythia.info.atEndOfFile()) {
-        cout << " Aborted since reached end of Les Houches Event File\n";
+        cout << "Aborted since reached end of event file!!";
         break;
       }
 
