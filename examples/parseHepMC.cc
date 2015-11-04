@@ -115,9 +115,9 @@ void parseHepMC(string input_file_name, string output_file_name) {
     }
 
     // Next, output TPFCs.
-    output_stream << "# TPFC" << "              px              py              pz          energy   pdgId" << endl;  
+    output_stream << "# TRUTH" << "              px              py              pz          energy   pdgId" << endl;  
     for (unsigned i = 0; i < truth_particles.size(); i++) {
-      output_stream << "  TPFC"
+      output_stream << " TRUTH "
         << setw(16) << fixed << setprecision(8) << truth_particles[i].px()
         << setw(16) << fixed << setprecision(8) << truth_particles[i].py()
         << setw(16) << fixed << setprecision(8) << truth_particles[i].pz()
