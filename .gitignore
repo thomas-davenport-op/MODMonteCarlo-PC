@@ -1,4 +1,4 @@
-*.dat
+data/
 *.png
 bin/*
 !bin/*.txt
