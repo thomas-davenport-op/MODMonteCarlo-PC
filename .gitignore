@@ -13,3 +13,7 @@ bin/*
 *.num
 *.root
 *.hepmc
+*.run
+*.log
+*.out
+*.tex
