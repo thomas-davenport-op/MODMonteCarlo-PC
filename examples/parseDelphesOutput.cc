@@ -49,9 +49,16 @@ void parseDelphesOutput(const char * inputFile, const char * outputFileName) {
   TClonesArray *branch_jet = tree_reader->UseBranch("Jet");
   TClonesArray *branch_particle = tree_reader->UseBranch("Particle");  // This is for Truth Particles.
 
-  TClonesArray *branch_track = tree_reader->UseBranch("EFlowTrack");
+  TClonesArray *branch_eflow_track = tree_reader->UseBranch("EFlowTrack");
   TClonesArray *branch_photon = tree_reader->UseBranch("EFlowPhoton");
   TClonesArray *branch_neutral_hadron = tree_reader->UseBranch("EFlowNeutralHadron");
+
+  TClonesArray *branch_track = tree_reader->UseBranch("Track");
+  TClonesArray *branch_tower = tree_reader->UseBranch("Tower");
+
+
+
+
 
   // Loop over all events.
   for (Int_t entry = 0; entry < number_of_entries; ++entry) {
@@ -59,6 +66,7 @@ void parseDelphesOutput(const char * inputFile, const char * outputFileName) {
     tree_reader->ReadEntry(entry);
 
     // cout << "Parsing event number: " << (entry + 1) << endl;
+
 
     output_stream << "BeginEvent Version 1 TruthPlusReco Pythia_8212_Delphes_330_Dijet100" << endl;
     
@@ -109,8 +117,8 @@ void parseDelphesOutput(const char * inputFile, const char * outputFileName) {
     
     double pfc_total_energy = 0.0;
 
-    for (unsigned i = 0; i < branch_track->GetEntriesFast(); i++) {
-      GenParticle * track = (GenParticle*) branch_track->At(i);
+    for (unsigned i = 0; i < branch_eflow_track->GetEntriesFast(); i++) {
+      GenParticle * track = (GenParticle*) branch_eflow_track->At(i);
 
       if (track->Status == 1) {
         output_stream << "   MPFC"
