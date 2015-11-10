@@ -184,13 +184,7 @@ void parseDelphesOutput(const char * inputFile, const char * outputFileName) {
     }
 
 
-    // Loop over all GenParticles
-    for (unsigned i = 0; i < branch_genparticle->GetEntriesFast(); ++i) {
-      GenParticle * gen_particle = (GenParticle*) branch_genparticle->At(i);
-      // TLorentzVector four_vector = gen_particle->P4();
 
-      // pfc_total_energy += four_vector.E();
-    }
 
     // Loop over all EFlow Photons
     for (unsigned i = 0; i < branch_eflow_photon->GetEntriesFast(); ++i) {
