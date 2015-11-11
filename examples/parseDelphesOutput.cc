@@ -128,42 +128,11 @@ void parseDelphesOutput(const char * inputFile, const char * outputFileName) {
     
     double pfc_total_energy = 0.0;
 
-    // Loop over all electrons in event
-    for(unsigned i = 0; i < branch_electron->GetEntriesFast(); ++i) {
-      Electron * electron = (Electron*) branch_electron->At(i);
-
-      TLorentzVector four_vector = electron->P4();
-      
-      pfc_total_energy += four_vector.E();
-    }
-
-    // Loop over all photons in event
-    for(unsigned i = 0; i < branch_photon->GetEntriesFast(); ++i){
-      Photon * photon = (Photon*) branch_photon->At(i);
-
-      // skip photons with references to multiple particles
-      if(photon->Particles.GetEntriesFast() != 1) continue;
-
-      TLorentzVector four_vector = photon->P4();
-      
-      pfc_total_energy += four_vector.E(); 
-    }
-
-    // Loop over all muons in event
-    for(unsigned i = 0; i < branch_muon->GetEntriesFast(); ++i)
-    {
-      Muon * muon = (Muon*) branch_muon->At(i);
-      TLorentzVector four_vector = muon->P4();
-      
-      pfc_total_energy += four_vector.E();
-    }
-
-
-    // Loop over all tracks in event
-    for(unsigned i = 0; i < branch_track->GetEntriesFast(); ++i) {
-      Track * track = (Track*) branch_track->At(i);
+    // Loop over all EFlow tracks
+    for (unsigned i = 0; i < branch_eflow_track->GetEntriesFast(); ++i) {
+      Track * track = (Track*) branch_eflow_track->At(i);
       TLorentzVector four_vector = track->P4();
-      
+
       output_stream << "   MPFC"
         << setw(16) << fixed << setprecision(8) << four_vector.Px()
         << setw(16) << fixed << setprecision(8) << four_vector.Py()
@@ -172,91 +141,68 @@ void parseDelphesOutput(const char * inputFile, const char * outputFileName) {
         << setw(8) << noshowpos << track->PID
         << endl;
 
-        pfc_total_energy += four_vector.E();
-    }
-
-    // Loop over all EFlow tracks
-    for (unsigned i = 0; i < branch_eflow_track->GetEntriesFast(); ++i) {
-      Track * track = (Track*) branch_eflow_track->At(i);
-      TLorentzVector four_vector = track->P4();
-
       pfc_total_energy += four_vector.E();
     }
-
-
-
 
     // Loop over all EFlow Photons
     for (unsigned i = 0; i < branch_eflow_photon->GetEntriesFast(); ++i) {
       Photon * photon = (Photon*) branch_eflow_photon->At(i);
       TLorentzVector four_vector = photon->P4();
 
+      output_stream << "   MPFC"
+        << setw(16) << fixed << setprecision(8) << four_vector.Px()
+        << setw(16) << fixed << setprecision(8) << four_vector.Py()
+        << setw(16) << fixed << setprecision(8) << four_vector.Pz()
+        << setw(16) << fixed << setprecision(8) << four_vector.E()
+        << setw(8) << noshowpos << "22"
+        << endl;
+
       pfc_total_energy += four_vector.E();
     }
 
     // Loop over all EFlow Hadrons
     for (unsigned i = 0; i < branch_eflow_neutral_hadron->GetEntriesFast(); ++i) {
-      GenParticle * neutral_hadron = (GenParticle*) branch_eflow_neutral_hadron->At(i);
-      TLorentzVector four_vector = neutral_hadron->P4();
 
-      pfc_total_energy += four_vector.E();
-    }
+      TObject * object = branch_eflow_neutral_hadron->At(i);
+        
+      if (object->IsA() == GenParticle::Class()) {
+        GenParticle * gen_particle = (GenParticle*) object;
 
+        TLorentzVector four_vector = gen_particle->P4();
 
+        output_stream << "   MPFC"
+          << setw(16) << fixed << setprecision(8) << four_vector.Px()
+          << setw(16) << fixed << setprecision(8) << four_vector.Py()
+          << setw(16) << fixed << setprecision(8) << four_vector.Pz()
+          << setw(16) << fixed << setprecision(8) << four_vector.E()
+          << setw(8) << noshowpos << gen_particle->PID
+          << endl;
 
-    /*
-    for (unsigned i = 0; i < branch_eflow_track->GetEntriesFast(); i++) {
-      Track * track = (Track * ) branch_eflow_track->At(i);
+        pfc_total_energy += four_vector.E();
+      }
+      else if(object->IsA() == Tower::Class()) {
+        
+        Tower * tower = (Tower*) object;
+
+        for (unsigned j = 0; j < tower->Particles.GetEntriesFast(); ++j) {
+          GenParticle * gen_particle = (GenParticle*) tower->Particles.At(j);
+
+          TLorentzVector four_vector = gen_particle->P4();
+
+          output_stream << "   MPFC"
+            << setw(16) << fixed << setprecision(8) << four_vector.Px()
+            << setw(16) << fixed << setprecision(8) << four_vector.Py()
+            << setw(16) << fixed << setprecision(8) << four_vector.Pz()
+            << setw(16) << fixed << setprecision(8) << four_vector.E()
+            << setw(8) << noshowpos << gen_particle->PID
+            << endl;
+
+          pfc_total_energy += four_vector.E();
+          
+        }
+      }
       
-      // Because 'Track' does not directly provide (px, py, pz, E), write out (pT, eta, phi, m) first and then use that to calculate (px, py, pz, E).
-      fastjet::PseudoJet pseudojet = fastjet::PseudoJet(0., 0., 0., 0.);
-      pseudojet.reset_PtYPhiM(track->PT, track->Eta, track->Phi, 0.);
-
-      // if (track->Status == 1) {
-        output_stream << "   MPFC"
-        << setw(16) << fixed << setprecision(8) << pseudojet.px()
-        << setw(16) << fixed << setprecision(8) << pseudojet.py()
-        << setw(16) << fixed << setprecision(8) << pseudojet.pz()
-        << setw(16) << fixed << setprecision(8) << pseudojet.E()
-        << setw(8) << noshowpos << track->PID
-        << endl;
-
-        pfc_total_energy += pseudojet.E();
-      // }
     }
-
-    for (unsigned i = 0; i < branch_photon->GetEntriesFast(); i++) {
-      GenParticle * photon = (GenParticle*) branch_photon->At(i);
-
-      if (photon->Status == 1) {
-        output_stream << "   MPFC"
-        << setw(16) << fixed << setprecision(8) << photon->Px
-        << setw(16) << fixed << setprecision(8) << photon->Py
-        << setw(16) << fixed << setprecision(8) << photon->Pz
-        << setw(16) << fixed << setprecision(8) << photon->E
-        << setw(8) << noshowpos << photon->PID
-        << endl;
-
-        pfc_total_energy += photon->E;
-      }
-    }
-
-    for (unsigned i = 0; i < branch_neutral_hadron->GetEntriesFast(); i++) {
-      GenParticle * neutral_hadron = (GenParticle*) branch_neutral_hadron->At(i);
-
-      if (neutral_hadron->Status == 1) {
-        output_stream << "   MPFC"
-        << setw(16) << fixed << setprecision(8) << neutral_hadron->Px
-        << setw(16) << fixed << setprecision(8) << neutral_hadron->Py
-        << setw(16) << fixed << setprecision(8) << neutral_hadron->Pz
-        << setw(16) << fixed << setprecision(8) << neutral_hadron->E
-        << setw(8) << noshowpos << neutral_hadron->PID
-        << endl;
-
-        pfc_total_energy += neutral_hadron->E;
-      }
-    }
-    */
 
     cout << "PFC Total Energy: " << pfc_total_energy << endl;
 
