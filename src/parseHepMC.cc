@@ -86,13 +86,13 @@ void parseHepMC(string input_file_name, string output_file_name) {
     }
 
     if ( abs(net_energy - 7000) > 1 ) {
-      cout << "ERROR:: Energy not conserved!" << endl;
-      throw std::runtime_error( "ERROR:: Energy not conserved!" );
+      cout << "ERROR:: Energy not conserved- " << net_energy << " vs. 7000!" << endl;
+      // throw std::runtime_error( "ERROR:: Energy not conserved!" );
     }
     
     if ((abs(net_px) > 1e-3) || (abs(net_py) > 1e-3) || (abs(net_pz) > 1e-3)) {
       cout << "ERROR:: Momentum not conserved!" << endl;
-      throw std::runtime_error( "ERROR:: Momentum not conserved!" );
+      // throw std::runtime_error( "ERROR:: Momentum not conserved!" );
     }
 
     // Cluster all truth particles.
@@ -101,16 +101,13 @@ void parseHepMC(string input_file_name, string output_file_name) {
     std::vector<fastjet::PseudoJet> truth_jets = cs.inclusive_jets(3);
     
     // Output TAK5 jets.
-    output_stream << "# TAK5" << "              px              py              pz          energy             phi              pT             eta" << endl;
+    output_stream << "# TAK5" << "              px              py              pz          energy" << endl;
     for (unsigned i = 0; i < truth_jets.size(); i++) {
       output_stream << "  TAK5"
         << setw(16) << fixed << setprecision(8) << truth_jets[i].px()
         << setw(16) << fixed << setprecision(8) << truth_jets[i].py()
         << setw(16) << fixed << setprecision(8) << truth_jets[i].pz()
         << setw(16) << fixed << setprecision(8) << truth_jets[i].E()
-        << setw(16) << fixed << setprecision(8) << truth_jets[i].phi()
-        << setw(16) << fixed << setprecision(8) << truth_jets[i].pt()
-        << setw(16) << fixed << setprecision(8) << truth_jets[i].eta()
         << endl;
     }
 

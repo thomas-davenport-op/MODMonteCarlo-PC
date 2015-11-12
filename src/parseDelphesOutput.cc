@@ -49,23 +49,9 @@ void parseDelphesOutput(const char * inputFile, const char * outputFileName) {
   TClonesArray *branch_jet = tree_reader->UseBranch("Jet");
   TClonesArray *branch_particle = tree_reader->UseBranch("Particle");  // This is for Truth Particles.
   
-  TClonesArray *branch_genparticle = tree_reader->UseBranch("GenParticle"); 
-
-  TClonesArray *branch_electron = tree_reader->UseBranch("Electron");
-  TClonesArray *branch_photon = tree_reader->UseBranch("Photon");
-  TClonesArray *branch_muon = tree_reader->UseBranch("Muon");
-
-  TClonesArray *branch_track = tree_reader->UseBranch("Track");
-  TClonesArray *branch_tower = tree_reader->UseBranch("Tower");
-
   TClonesArray *branch_eflow_track = tree_reader->UseBranch("EFlowTrack");
   TClonesArray *branch_eflow_photon = tree_reader->UseBranch("EFlowPhoton");
   TClonesArray *branch_eflow_neutral_hadron = tree_reader->UseBranch("EFlowNeutralHadron");
-
-  
-
-
-
 
 
   // Loop over all events.
@@ -73,13 +59,13 @@ void parseDelphesOutput(const char * inputFile, const char * outputFileName) {
     // Load selected branches with data from specified event.
     tree_reader->ReadEntry(entry);
 
-    // cout << "Parsing event number: " << (entry + 1) << endl;
+    cout << "Parsing event number: " << (entry + 1) << " \t";
 
 
     output_stream << "BeginEvent Version 1 TruthPlusReco Pythia_8212_Delphes_330_Dijet100" << endl;
     
     // Output all jets.
-    output_stream << "#  MAK5" << "              px              py              pz          energy" << endl;
+    output_stream << "#  TAK5" << "              px              py              pz          energy" << endl;
 
 
     for (unsigned i = 0; i < branch_jet->GetEntries(); i++) {
@@ -89,7 +75,7 @@ void parseDelphesOutput(const char * inputFile, const char * outputFileName) {
       fastjet::PseudoJet pseudojet = fastjet::PseudoJet(0., 0., 0., 0.);
       pseudojet.reset_PtYPhiM(jet->PT, jet->Eta, jet->Phi, jet->Mass);
 
-      output_stream << "   MAK5"
+      output_stream << "   TAK5"
         << setw(16) << fixed << setprecision(8) << pseudojet.px()
         << setw(16) << fixed << setprecision(8) << pseudojet.py()
         << setw(16) << fixed << setprecision(8) << pseudojet.pz()
@@ -98,8 +84,72 @@ void parseDelphesOutput(const char * inputFile, const char * outputFileName) {
 
     }
 
+    // Add all particles to a vector. We do this instead of just writing them out because we want to cluster them later on.
+    vector<fastjet::PseudoJet> particles;
 
-    // Output all truth particles.
+    // Loop over all EFlow tracks.
+    for (unsigned i = 0; i < branch_eflow_track->GetEntriesFast(); ++i) {
+      Track * track = (Track*) branch_eflow_track->At(i);
+      TLorentzVector four_vector = track->P4();
+      fastjet::PseudoJet particle = fastjet::PseudoJet(four_vector.Px(), four_vector.Py(), four_vector.Pz(), four_vector.E());
+      particle.set_user_index(track->PID);
+      particles.push_back(particle);
+    }
+
+    // Loop over all EFlow Photons.
+    for (unsigned i = 0; i < branch_eflow_photon->GetEntriesFast(); ++i) {
+      Photon * photon = (Photon*) branch_eflow_photon->At(i);
+      TLorentzVector four_vector = photon->P4();
+      fastjet::PseudoJet particle = fastjet::PseudoJet(four_vector.Px(), four_vector.Py(), four_vector.Pz(), four_vector.E());
+      particle.set_user_index(22);
+      particles.push_back(particle);
+    }
+
+    // Loop over all EFlow Hadrons.
+    for (unsigned i = 0; i < branch_eflow_neutral_hadron->GetEntriesFast(); ++i) {
+
+      TObject * object = branch_eflow_neutral_hadron->At(i);
+        
+      if (object->IsA() == GenParticle::Class()) {
+        GenParticle * gen_particle = (GenParticle*) object;
+        TLorentzVector four_vector = gen_particle->P4();
+        fastjet::PseudoJet particle = fastjet::PseudoJet(four_vector.Px(), four_vector.Py(), four_vector.Pz(), four_vector.E());
+        particle.set_user_index(gen_particle->PID);
+        particles.push_back(particle);
+
+      }
+      else if(object->IsA() == Tower::Class()) {
+        
+        Tower * tower = (Tower*) object;
+
+        for (unsigned j = 0; j < tower->Particles.GetEntriesFast(); ++j) {
+          GenParticle * gen_particle = (GenParticle*) tower->Particles.At(j);
+          TLorentzVector four_vector = gen_particle->P4();
+          fastjet::PseudoJet particle = fastjet::PseudoJet(four_vector.Px(), four_vector.Py(), four_vector.Pz(), four_vector.E());
+          particle.set_user_index(gen_particle->PID);
+          particles.push_back(particle);
+        }
+      }
+    }
+
+
+    // Now that we have all the "particles" we need, cluster them into AK5 jets.
+    fastjet::JetDefinition jet_def(fastjet::antikt_algorithm, 0.5);
+    fastjet::ClusterSequence cs(particles, jet_def);
+    std::vector<fastjet::PseudoJet> jets = cs.inclusive_jets(0.0);
+
+    // Now write those jets out.
+    output_stream << "#  RAK5" << "              px              py              pz          energy" << endl;
+    for (unsigned i = 0; i < jets.size(); i++) {
+      output_stream << "   RAK5"
+        << setw(16) << fixed << setprecision(8) << jets[i].px()
+        << setw(16) << fixed << setprecision(8) << jets[i].py()
+        << setw(16) << fixed << setprecision(8) << jets[i].pz()
+        << setw(16) << fixed << setprecision(8) << jets[i].E()
+        << endl;
+    }
+
+    // Now, write out all Truth particles.
     output_stream << "# TRUTH" << "              px              py              pz          energy   pdgId" << endl;  
 
     double total_energy = 0.0;
@@ -123,88 +173,23 @@ void parseDelphesOutput(const char * inputFile, const char * outputFileName) {
 
     cout << "Total truth energy: " << total_energy << endl;
 
-    // Finally, PFCs.
-    output_stream << "#  MPFC" << "              px              py              pz          energy   pdgId" << endl;
-    
-    double pfc_total_energy = 0.0;
 
-    // Loop over all EFlow tracks
-    for (unsigned i = 0; i < branch_eflow_track->GetEntriesFast(); ++i) {
-      Track * track = (Track*) branch_eflow_track->At(i);
-      TLorentzVector four_vector = track->P4();
+    // Finally, reconstructed particles. Because we've already stored all of them in a vector, we just loop through that.
+    output_stream << "#  RPFC" << "              px              py              pz          energy   pdgId" << endl;
 
-      output_stream << "   MPFC"
-        << setw(16) << fixed << setprecision(8) << four_vector.Px()
-        << setw(16) << fixed << setprecision(8) << four_vector.Py()
-        << setw(16) << fixed << setprecision(8) << four_vector.Pz()
-        << setw(16) << fixed << setprecision(8) << four_vector.E()
-        << setw(8) << noshowpos << track->PID
-        << endl;
-
-      pfc_total_energy += four_vector.E();
-    }
-
-    // Loop over all EFlow Photons
-    for (unsigned i = 0; i < branch_eflow_photon->GetEntriesFast(); ++i) {
-      Photon * photon = (Photon*) branch_eflow_photon->At(i);
-      TLorentzVector four_vector = photon->P4();
-
-      output_stream << "   MPFC"
-        << setw(16) << fixed << setprecision(8) << four_vector.Px()
-        << setw(16) << fixed << setprecision(8) << four_vector.Py()
-        << setw(16) << fixed << setprecision(8) << four_vector.Pz()
-        << setw(16) << fixed << setprecision(8) << four_vector.E()
-        << setw(8) << noshowpos << "22"
-        << endl;
-
-      pfc_total_energy += four_vector.E();
-    }
-
-    // Loop over all EFlow Hadrons
-    for (unsigned i = 0; i < branch_eflow_neutral_hadron->GetEntriesFast(); ++i) {
-
-      TObject * object = branch_eflow_neutral_hadron->At(i);
-        
-      if (object->IsA() == GenParticle::Class()) {
-        GenParticle * gen_particle = (GenParticle*) object;
-
-        TLorentzVector four_vector = gen_particle->P4();
-
-        output_stream << "   MPFC"
-          << setw(16) << fixed << setprecision(8) << four_vector.Px()
-          << setw(16) << fixed << setprecision(8) << four_vector.Py()
-          << setw(16) << fixed << setprecision(8) << four_vector.Pz()
-          << setw(16) << fixed << setprecision(8) << four_vector.E()
-          << setw(8) << noshowpos << gen_particle->PID
-          << endl;
-
-        pfc_total_energy += four_vector.E();
-      }
-      else if(object->IsA() == Tower::Class()) {
-        
-        Tower * tower = (Tower*) object;
-
-        for (unsigned j = 0; j < tower->Particles.GetEntriesFast(); ++j) {
-          GenParticle * gen_particle = (GenParticle*) tower->Particles.At(j);
-
-          TLorentzVector four_vector = gen_particle->P4();
-
-          output_stream << "   MPFC"
-            << setw(16) << fixed << setprecision(8) << four_vector.Px()
-            << setw(16) << fixed << setprecision(8) << four_vector.Py()
-            << setw(16) << fixed << setprecision(8) << four_vector.Pz()
-            << setw(16) << fixed << setprecision(8) << four_vector.E()
-            << setw(8) << noshowpos << gen_particle->PID
-            << endl;
-
-          pfc_total_energy += four_vector.E();
-          
-        }
-      }
+    for (unsigned i = 0; i < particles.size(); ++i) {
       
-    }
+      fastjet::PseudoJet particle = particles[i];
 
-    cout << "PFC Total Energy: " << pfc_total_energy << endl;
+      output_stream << "   RPFC"
+        << setw(16) << fixed << setprecision(8) << particle.px()
+        << setw(16) << fixed << setprecision(8) << particle.py()
+        << setw(16) << fixed << setprecision(8) << particle.pz()
+        << setw(16) << fixed << setprecision(8) << particle.E()
+        << setw(8) << noshowpos << particle.user_index()
+        << endl;
+
+    }
 
     output_stream << "EndEvent" << endl;
     
