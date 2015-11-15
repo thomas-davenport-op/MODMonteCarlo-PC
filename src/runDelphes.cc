@@ -1,59 +1,3 @@
-/*
- *  Delphes: a framework for fast simulation of a generic collider experiment
- *  Copyright (C) 2012-2014  Universite catholique de Louvain (UCL), Belgium
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-
-/*
-########################################################################
-
-
-This simple example shows how to use Delphes with an external FastJet installation.
-Events in HepMC format are read via the DelphesHepMC reader. 
-
-In order to run this example you first need to set the paths to your Delphes, FastJet
-and ROOT installations (DELPHES_DIR, FASTJET_DIR and ROOT_DIR):
-
-DELPHES_DIR=<path to Delphes installation>
-FASTJET_DIR=<path to FastJet installation>
-ROOT_DIR=<path to ROOT installation>
-
-Then run the following commands to build the executable:
-
-DELPHES_LIB="-Wl,-rpath,$DELPHES_DIR -L$DELPHES_DIR -lDelphesNoFastJet"
-
-FASTJET_INC=`$FASTJET_DIR/bin/fastjet-config --cxxflags`
-FASTJET_LIB=`$FASTJET_DIR/bin/fastjet-config --libs`
-
-ROOT_INC=`$ROOT_DIR/bin/root-config --incdir`
-ROOT_LIB=`$ROOT_DIR/bin/root-config --libs`
-
-CXXFLAGS="$FASTJET_INC -I$ROOT_INC -I$DELPHES_DIR -I$DELPHES_DIR/external"
-LDFLAGS="$FASTJET_LIB $ROOT_LIB -lEG $DELPHES_LIB"
-
-g++ $CXXFLAGS examples/ExternalFastJet/ExternalFastJetHepMC.cpp $LDFLAGS -o ExternalFastJetHepMC
-
-Then run (you need an event file in HepMC format):
-
-./ExternalFastJetHepMC cards/delphes_card_CMS_NoFastJet.tcl file.hepmc
-
-
-########################################################################
-*/
-
 #include <stdexcept>
 #include <iostream>
 #include <sstream>
@@ -130,7 +74,7 @@ int main(int argc, char *argv[]) {
   vector<PseudoJet> input_list, output_list, truth_pfcs, truth_jets;
   PseudoJet jet;
 
-  ofstream output_file("data/sherpa_reco.mod", ios::out);
+  ofstream output_file("data/pythia_reco.mod", ios::out);
   stringstream output_stream;
 
   if(argc < 2) {
@@ -265,8 +209,9 @@ int main(int argc, char *argv[]) {
               momentum = truth_candidate->Momentum;
               jet = PseudoJet(momentum.Px(), momentum.Py(), momentum.Pz(), momentum.E());
               jet.set_user_index(truth_candidate->PID);
-              if (truth_candidate->Status == 1)
+              if (truth_candidate->Status == 1) {
                 truth_pfcs.push_back(jet);
+              }
             }
             truth_pfcs = sorted_by_pt(truth_pfcs);
 
@@ -292,8 +237,9 @@ int main(int argc, char *argv[]) {
               momentum = candidate->Momentum;
               jet = PseudoJet(momentum.Px(), momentum.Py(), momentum.Pz(), momentum.E());
               jet.set_user_index(candidate->PID);
-              if (candidate->Status == 1)
+              if (candidate->Status == 1) {
                 input_list.push_back(jet);
+              }
             }
             input_list = sorted_by_pt(input_list);
 
