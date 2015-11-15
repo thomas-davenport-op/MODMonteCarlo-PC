@@ -130,7 +130,7 @@ int main(int argc, char *argv[]) {
   vector<PseudoJet> input_list, output_list, truth_pfcs, truth_jets;
   PseudoJet jet;
 
-  ofstream output_file("data/delphes_output.mod", ios::out);
+  ofstream output_file("data/sherpa_reco.mod", ios::out);
   stringstream output_stream;
 
   if(argc < 2) {
@@ -253,6 +253,9 @@ int main(int argc, char *argv[]) {
                   
             input_list.clear();
             input_iterator->Reset();
+
+            truth_pfcs.clear();
+            stable_particle_iterator->Reset();
       	
             output_stream << "BeginEvent Version 1 TruthPlusReco Pythia_8212_Delphes_330_Dijet100" << endl;
 
@@ -262,7 +265,8 @@ int main(int argc, char *argv[]) {
               momentum = truth_candidate->Momentum;
               jet = PseudoJet(momentum.Px(), momentum.Py(), momentum.Pz(), momentum.E());
               jet.set_user_index(truth_candidate->PID);
-              truth_pfcs.push_back(jet);
+              if (truth_candidate->Status == 1)
+                truth_pfcs.push_back(jet);
             }
             truth_pfcs = sorted_by_pt(truth_pfcs);
 
@@ -288,7 +292,8 @@ int main(int argc, char *argv[]) {
               momentum = candidate->Momentum;
               jet = PseudoJet(momentum.Px(), momentum.Py(), momentum.Pz(), momentum.E());
               jet.set_user_index(candidate->PID);
-              input_list.push_back(jet);
+              if (candidate->Status == 1)
+                input_list.push_back(jet);
             }
             input_list = sorted_by_pt(input_list);
 
