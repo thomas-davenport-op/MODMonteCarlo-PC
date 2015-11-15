@@ -85,6 +85,8 @@ void parseHepMC(string input_file_name, string output_file_name) {
       
     }
 
+    truth_particles = sorted_by_pt(truth_particles);
+
     if ( abs(net_energy - 7000) > 1 ) {
       cout << "ERROR:: Energy not conserved- " << net_energy << " vs. 7000!" << endl;
       // throw std::runtime_error( "ERROR:: Energy not conserved!" );
@@ -98,12 +100,12 @@ void parseHepMC(string input_file_name, string output_file_name) {
     // Cluster all truth particles.
     fastjet::JetDefinition jet_def(fastjet::antikt_algorithm, 0.5);
     fastjet::ClusterSequence cs(truth_particles, jet_def);
-    std::vector<fastjet::PseudoJet> truth_jets = cs.inclusive_jets(3);
+    std::vector<fastjet::PseudoJet> truth_jets = sorted_by_pt(cs.inclusive_jets(0.0));
     
     // Output TAK5 jets.
-    output_stream << "# TAK5" << "              px              py              pz          energy" << endl;
+    output_stream << "#  TAK5" << "              px              py              pz          energy" << endl;
     for (unsigned i = 0; i < truth_jets.size(); i++) {
-      output_stream << "  TAK5"
+      output_stream << "   TAK5"
         << setw(16) << fixed << setprecision(8) << truth_jets[i].px()
         << setw(16) << fixed << setprecision(8) << truth_jets[i].py()
         << setw(16) << fixed << setprecision(8) << truth_jets[i].pz()
@@ -112,9 +114,9 @@ void parseHepMC(string input_file_name, string output_file_name) {
     }
 
     // Next, output TPFCs.
-    output_stream << "# TRUTH" << "              px              py              pz          energy   pdgId" << endl;  
+    output_stream << "# TRUTH" << "               px              py              pz          energy   pdgId" << endl;  
     for (unsigned i = 0; i < truth_particles.size(); i++) {
-      output_stream << " TRUTH "
+      output_stream << "  TRUTH "
         << setw(16) << fixed << setprecision(8) << truth_particles[i].px()
         << setw(16) << fixed << setprecision(8) << truth_particles[i].py()
         << setw(16) << fixed << setprecision(8) << truth_particles[i].pz()
@@ -194,7 +196,7 @@ void zg_stuff() {
   for (int i = 0; i < events.size(); i++) {
 
     fastjet::ClusterSequence cs(events[i], jet_def);
-    std::vector<fastjet::PseudoJet> jets = cs.inclusive_jets(3);
+    std::vector<fastjet::PseudoJet> jets = cs.inclusive_jets(0.0);
 
     sort(jets.begin(), jets.end(), pseudojets_compare);
 

@@ -37,7 +37,7 @@ CXXFLAGS= -std=c++11
 
 
 all: src/runDelphes.cc
-	$(CXX) $(CXXFLAGS) -I$(HEPMC2_INCLUDE) src/runDelphes.cc -o bin/runDelphes -lDelphes -L$(DELPHES_LIB) -L$(DELPHES_INC)/external -ldl -I$(DELPHES_INC) -I$(DELPHES_INC)/external -I$(INCLUDE_FASTJET) `$(PATH_TO_FASTJET) --libs --plugins` `root-config --cflags --glibs`
+	$(CXX) $(CXXFLAGS) -I$(HEPMC2_INCLUDE) src/runDelphes.cc -o bin/runDelphes -lHepMC -lDelphes -L$(DELPHES_LIB) -L$(HEPMC2_LIB) -L$(DELPHES_INC)/external -ldl -I$(DELPHES_INC) -I$(DELPHES_INC)/external -I$(INCLUDE_FASTJET) `$(PATH_TO_FASTJET) --libs --plugins` `root-config --cflags --glibs`
 
 
 clean:
