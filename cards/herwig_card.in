@@ -11,6 +11,7 @@ set LHCGenerator:NumberOfEvents 1000
 set LHCGenerator:RandomNumberGenerator:Seed 581209
 set LHCGenerator:PrintEvent 1000
 set LHCGenerator:MaxErrors 10000
+set /Herwig/Cuts/JetKtCut:MinKT 100.0*GeV
 
 ##################################################
 # LHC physics parameters (override defaults here) 
