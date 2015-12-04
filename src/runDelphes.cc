@@ -74,7 +74,11 @@ int main(int argc, char *argv[]) {
   vector<PseudoJet> input_list, output_list, truth_pfcs, truth_jets;
   PseudoJet jet;
 
-  ofstream output_file("data/pythia_reco.mod", ios::out);
+  string card_filename = argv[1];
+  string input_filename = argv[2];
+  string output_filename = input_filename + ".mod";
+
+  ofstream output_file(output_filename.c_str(), ios::out);
   stringstream output_stream;
 
   if(argc < 2) {
@@ -95,7 +99,7 @@ int main(int argc, char *argv[]) {
 
   try {
     conf_reader = new ExRootConfReader;
-    conf_reader->ReadFile(argv[1]);
+    conf_reader->ReadFile(card_filename.c_str());
 
     max_events = conf_reader->GetInt("::Max_events", 0);
     skip_events = conf_reader->GetInt("::Skip_events", 0);
@@ -237,7 +241,7 @@ int main(int argc, char *argv[]) {
               momentum = candidate->Momentum;
               jet = PseudoJet(momentum.Px(), momentum.Py(), momentum.Pz(), momentum.E());
               jet.set_user_index(candidate->PID);
-              if (candidate->Status == 1) {
+              if ( (candidate->Status == 1) && ( abs(jet.eta()) < 5.0 ) ) {
                 input_list.push_back(jet);
               }
             }
@@ -252,7 +256,7 @@ int main(int argc, char *argv[]) {
             output_stream << "#  RAK5" << "              px              py              pz          energy" << endl;
 
             for (unsigned k = 0; k < output_list.size(); k++) {
-              output_stream << "   RAK5"
+                output_stream << "   RAK5"
                             << setw(16) << fixed << setprecision(8) << output_list[k].px()
                             << setw(16) << fixed << setprecision(8) << output_list[k].py()
                             << setw(16) << fixed << setprecision(8) << output_list[k].pz()

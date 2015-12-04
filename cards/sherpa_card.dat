@@ -12,14 +12,14 @@
   BEAM_1 2212; BEAM_ENERGY_1 3500;
   BEAM_2 2212; BEAM_ENERGY_2 3500;
 
-  RANDOM_SEED1=121281
-  RANDOM_SEED2=81057
-  RANDOM_SEED3=01739
-  RANDOM_SEED4=01937
+  RANDOM_SEED1=2134
+  RANDOM_SEED2=141
+  RANDOM_SEED3=1412
+  RANDOM_SEED4=12411
 
 
   SHOWER_GENERATOR CSS;
-  #SCALES FASTJET[A:antikt,PT:100.,ET:0,R:1.0,M:0]{H_T2*0.25}{H_T2*0.25}{PPerp2(p[3])}
+  #SCALES FASTJET[A:antikt,PT:40.,ET:0,R:1.0,M:0]{H_T2*0.25}{H_T2*0.25}{PPerp2(p[3])}
   SCALES VAR{0.25*H_T2}{0.25*H_T2};
   #SCALES VAR{10000.}{10000.};
   
@@ -36,6 +36,7 @@
 }(processes)
 
 (selector){
-  NJetFinder 1 100.0 0.0 0.5 -1 5.0 5.0;
+  # NJetFinder <n> <ptmin> <etmin> <D parameter> [<exponent>] [<eta max>] [<mass max>]
+  NJetFinder 1 150.0 0.0 0.5 -1 5.0 5.0;
 }(selector);
 

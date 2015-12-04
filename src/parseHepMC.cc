@@ -47,11 +47,12 @@ void parseHepMC(string input_file_name, string output_file_name) {
   while (event) {
   
     icount++;
-  
-    std::cout << "Processing Event Number " << icount << std::endl;
     
-    cout << "Number of particles: " << event->particles_size() << endl;
-    cout << "Number of vertices: " << event->vertices_size() << endl;
+    if (icount % 100 == 0)
+      std::cout << "Processing Event Number " << icount << std::endl;
+    
+    // cout << "Number of particles: " << event->particles_size() << endl;
+    // cout << "Number of vertices: " << event->vertices_size() << endl;
 
     GenEvent::particle_const_iterator particle = event->particles_begin();
 

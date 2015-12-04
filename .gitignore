@@ -17,3 +17,9 @@ bin/*
 *.log
 *.out
 *.tex
+*.db
+*.log
+*.out
+*.run
+*.bak
+MPI_Cross_Sections.dat

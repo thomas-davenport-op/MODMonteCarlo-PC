@@ -31,7 +31,7 @@ Things to do:
 ## Herwig
 - Go to the data directory- `cd data/`.
 - Run `Herwig++ read ../cards/herwig_card.in`. Note that if you don't change the random number seed in the card file, you get the same set of events.
-- Run `Herwig++ run herwig_run.run -N10 -d1`. The number after N is the number of events you want to generate.
+- Run `Herwig++ run herwig_run.run -d1`.
 
 ## Sherpa
 - Go to the data directory- `cd data/`.
