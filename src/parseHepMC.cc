@@ -15,12 +15,8 @@ using namespace HepMC;
 
 
 
-
-bool pseudojets_compare(fastjet::PseudoJet a, fastjet::PseudoJet b);
-
 void parseHepMC(string input_file_name, string output_file_name);
 
-void zg_stuff();
 
 int main(int argc, char* argv[]) {
 
@@ -103,16 +99,16 @@ void parseHepMC(string input_file_name, string output_file_name) {
     fastjet::ClusterSequence cs(truth_particles, jet_def);
     std::vector<fastjet::PseudoJet> truth_jets = sorted_by_pt(cs.inclusive_jets(0.0));
     
-    // Output TAK5 jets.
-    output_stream << "#  TAK5" << "              px              py              pz          energy" << endl;
-    for (unsigned i = 0; i < truth_jets.size(); i++) {
-      output_stream << "   TAK5"
-        << setw(16) << fixed << setprecision(8) << truth_jets[i].px()
-        << setw(16) << fixed << setprecision(8) << truth_jets[i].py()
-        << setw(16) << fixed << setprecision(8) << truth_jets[i].pz()
-        << setw(16) << fixed << setprecision(8) << truth_jets[i].E()
-        << endl;
-    }
+    // // Output TAK5 jets.
+    // output_stream << "#  TAK5" << "              px              py              pz          energy" << endl;
+    // for (unsigned i = 0; i < truth_jets.size(); i++) {
+    //   output_stream << "   TAK5"
+    //     << setw(16) << fixed << setprecision(8) << truth_jets[i].px()
+    //     << setw(16) << fixed << setprecision(8) << truth_jets[i].py()
+    //     << setw(16) << fixed << setprecision(8) << truth_jets[i].pz()
+    //     << setw(16) << fixed << setprecision(8) << truth_jets[i].E()
+    //     << endl;
+    // }
 
     // Next, output TPFCs.
     output_stream << "# TRUTH" << "               px              py              pz          energy   pdgId" << endl;  
@@ -141,82 +137,5 @@ void parseHepMC(string input_file_name, string output_file_name) {
 
 
 
-void zg_stuff() {
-
-  // ifstream data_stream("data/pythia_output.mod");
-  ifstream data_stream("data/delphes_output.mod");
-  ofstream output_stream("data/zg_output.dat", ios::out);
-
-  std::vector<std::vector<fastjet::PseudoJet>> events;
-  std::vector<fastjet::PseudoJet> particles;
-
-  string line;
-  while(getline(data_stream, line)) {
-    istringstream iss(line);
 
 
-    int version;
-    string tag, version_keyword, a, b;
-
-    iss >> tag;      
-    istringstream stream(line);
-
-    if ( (tag == "TPFC") || (tag == "MPFC") ) {
-      try {
-
-        string tag;
-        double px, py, pz, energy;
-        int pdgId;
-
-        iss >> px >> py >> pz >> energy >> pdgId;
-
-        fastjet::PseudoJet pseudojet = fastjet::PseudoJet(px, py, pz, energy);
-
-        // if (abs(pseudojet.eta()) < 5)
-          particles.push_back(pseudojet);
-
-        // cout << particles.size() << endl;
-        // cout << "Adding a particle." << endl;
-      }
-      catch (exception& e) {
-        throw runtime_error("Invalid file format PFC! Something's wrong with the way PFCs have been written.");
-      }
-    }
-    else if (tag == "EndEvent") {
-      // cout << "End of Event!" << endl;
-      events.push_back(particles);
-      // cout << "particles before: " << particles.size() << endl;
-      particles.clear(); 
-      // cout << "particles after:  " << particles.size() << endl;
-    }
-  }
-
-
-  fastjet::JetDefinition jet_def(fastjet::antikt_algorithm, 0.5);
-
-  for (int i = 0; i < events.size(); i++) {
-
-    fastjet::ClusterSequence cs(events[i], jet_def);
-    std::vector<fastjet::PseudoJet> jets = cs.inclusive_jets(0.0);
-
-    sort(jets.begin(), jets.end(), pseudojets_compare);
-
-    // cout << jets[0].E() << endl;
-
-    fastjet::contrib::SoftDrop soft_drop(0.0, 0.05);
-    fastjet::PseudoJet soft_drop_jet = soft_drop(jets[0]);
-    double zg_05 = soft_drop_jet.structure_of<fastjet::contrib::SoftDrop>().symmetry();
-
-    output_stream << jets[0].pt() << ", " << zg_05 << endl;
-
-  }
-
-}
-
-
-
-bool pseudojets_compare(fastjet::PseudoJet a, fastjet::PseudoJet b) {
-   if (a.pt() > b.pt())
-      return true;
-   return false;
-}

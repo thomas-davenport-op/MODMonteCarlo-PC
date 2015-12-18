@@ -8,10 +8,10 @@
 ##################################################
 cd /Herwig/Generators
 set LHCGenerator:NumberOfEvents 1000
-set LHCGenerator:RandomNumberGenerator:Seed 149
+set LHCGenerator:RandomNumberGenerator:Seed 149213
 set LHCGenerator:PrintEvent 1000
 set LHCGenerator:MaxErrors 1000
-set /Herwig/Cuts/JetKtCut:MinKT 150.0*GeV
+set /Herwig/Cuts/JetKtCut:MinKT 100.0*GeV
 
 ##################################################
 # LHC physics parameters (override defaults here) 

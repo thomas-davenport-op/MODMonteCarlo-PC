@@ -224,16 +224,16 @@ int main(int argc, char *argv[]) {
             truth_jets.clear();
             truth_jets = sorted_by_pt(cs.inclusive_jets(0.0));
 
-            // Write out truth jets.
-            output_stream << "#  TAK5" << "              px              py              pz          energy" << endl;
-            for (unsigned k = 0; k < truth_jets.size(); k++) {
-              output_stream << "   TAK5"
-                            << setw(16) << fixed << setprecision(8) << truth_jets[k].px()
-                            << setw(16) << fixed << setprecision(8) << truth_jets[k].py()
-                            << setw(16) << fixed << setprecision(8) << truth_jets[k].pz()
-                            << setw(16) << fixed << setprecision(8) << truth_jets[k].E()
-                            << endl;
-            }
+            // // Write out truth jets.
+            // output_stream << "#  TAK5" << "              px              py              pz          energy" << endl;
+            // for (unsigned k = 0; k < truth_jets.size(); k++) {
+            //   output_stream << "   TAK5"
+            //                 << setw(16) << fixed << setprecision(8) << truth_jets[k].px()
+            //                 << setw(16) << fixed << setprecision(8) << truth_jets[k].py()
+            //                 << setw(16) << fixed << setprecision(8) << truth_jets[k].pz()
+            //                 << setw(16) << fixed << setprecision(8) << truth_jets[k].E()
+            //                 << endl;
+            // }
 
 
       	    // pass delphes candidates to fastjet clustering  
@@ -252,17 +252,17 @@ int main(int argc, char *argv[]) {
             output_list.clear();
             output_list = sorted_by_pt(sequence.inclusive_jets(0.0));
 
-            // Write out reconstructed AK5 jets.
-            output_stream << "#  RAK5" << "              px              py              pz          energy" << endl;
+            // // Write out reconstructed AK5 jets.
+            // output_stream << "#  RAK5" << "              px              py              pz          energy" << endl;
 
-            for (unsigned k = 0; k < output_list.size(); k++) {
-                output_stream << "   RAK5"
-                            << setw(16) << fixed << setprecision(8) << output_list[k].px()
-                            << setw(16) << fixed << setprecision(8) << output_list[k].py()
-                            << setw(16) << fixed << setprecision(8) << output_list[k].pz()
-                            << setw(16) << fixed << setprecision(8) << output_list[k].E()
-                            << endl;
-            }
+            // for (unsigned k = 0; k < output_list.size(); k++) {
+            //     output_stream << "   RAK5"
+            //                 << setw(16) << fixed << setprecision(8) << output_list[k].px()
+            //                 << setw(16) << fixed << setprecision(8) << output_list[k].py()
+            //                 << setw(16) << fixed << setprecision(8) << output_list[k].pz()
+            //                 << setw(16) << fixed << setprecision(8) << output_list[k].E()
+            //                 << endl;
+            // }
 
             // Next, truth particles.
             output_stream << "# TRUTH" << "              px              py              pz          energy   pdgId" << endl;

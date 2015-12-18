@@ -12,10 +12,10 @@
   BEAM_1 2212; BEAM_ENERGY_1 3500;
   BEAM_2 2212; BEAM_ENERGY_2 3500;
 
-  RANDOM_SEED1=2134
-  RANDOM_SEED2=141
-  RANDOM_SEED3=1412
-  RANDOM_SEED4=12411
+  RANDOM_SEED1=212334
+  RANDOM_SEED2=141142
+  RANDOM_SEED3=1411242
+  RANDOM_SEED4=1241211
 
 
   SHOWER_GENERATOR CSS;
@@ -37,6 +37,6 @@
 
 (selector){
   # NJetFinder <n> <ptmin> <etmin> <D parameter> [<exponent>] [<eta max>] [<mass max>]
-  NJetFinder 1 150.0 0.0 0.5 -1 5.0 5.0;
+  NJetFinder 1 100.0 0.0 0.5 -1 5.0 5.0;
 }(selector);
 

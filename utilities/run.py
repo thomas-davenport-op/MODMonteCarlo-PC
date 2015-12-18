@@ -17,6 +17,10 @@ def run_analyzer():
 		
 		call(['rm', 'MIG_P+P+_7000_NNPDF_2.db', 'MPI_Cross_Sections.dat', 'Results.db', 'Results.db.bak', 'Sherpa_References.tex'])
 
+	def cleanup():
+		call(['rm', 'herwig_run.log', 'herwig_run.out', 'herwig_run.run', 'herwig_run.tex'])
+		
+		call(['rm', 'MIG_P+P+_7000_NNPDF_2.db', 'MPI_Cross_Sections.dat', 'Results.db', 'Results.db.bak', 'Sherpa_References.tex'])
 	
 	def run_mc_programs():
 		
@@ -46,14 +50,19 @@ def run_analyzer():
 		call(['mv', 'data/sherpa_truth.hepmc.mod', 'data/sherpa_reco.mod'])
 
 
-	delete_everything()
+	# Delete all generated MC files plus "config" files. It's important to delete everything so that any change to a parameter in the MC-generation process actually trickles through.
+	# delete_everything()
 	
 	# Run the three MC programs.
-	run_mc_programs()
+	# run_mc_programs()
 
+	# Parse the result HePMC files to MOD files.
 	parse_hepmc()
-	run_delphes()
 
+	# Run Detector Simulation. We don't need to parse these because the simulation will write MOD files directly.
+	# run_delphes()
+
+	cleanup()
 
 
 start = time()

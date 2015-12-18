@@ -23,12 +23,12 @@ CXXFLAGS= -std=c++11
 
 
 
-# all: src/generateEvents.cc
-# 	$(CXX) $(CXXFLAGS) -I$(PYTHIA_INC) -I$(HEPMC2_INCLUDE) src/generateEvents.cc -o bin/generateEvents -lpythia8 -ldl -L$(PYTHIA_LIB) -lHepMC -L$(HEPMC2_LIB) -ldl
+all: src/generateEvents.cc
+	$(CXX) $(CXXFLAGS) -I$(PYTHIA_INC) -I$(HEPMC2_INCLUDE) src/generateEvents.cc -o bin/generateEvents -lpythia8 -ldl -L$(PYTHIA_LIB) -lHepMC -L$(HEPMC2_LIB) -ldl
 
 
-all: src/parseHepMC.cc
-	$(CXX) $(CXXFLAGS) -I$(HEPMC2_INCLUDE) src/parseHepMC.cc -o bin/parseHepMC -lHepMC -L$(HEPMC2_LIB) -ldl -I$(INCLUDE_FASTJET) `$(PATH_TO_FASTJET) --libs --plugins` -lRecursiveTools
+# all: src/parseHepMC.cc
+# 	$(CXX) $(CXXFLAGS) -I$(HEPMC2_INCLUDE) src/parseHepMC.cc -o bin/parseHepMC -lHepMC -L$(HEPMC2_LIB) -ldl -I$(INCLUDE_FASTJET) `$(PATH_TO_FASTJET) --libs --plugins` -lRecursiveTools
 
 
 
