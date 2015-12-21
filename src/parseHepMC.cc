@@ -8,7 +8,7 @@
 
 #include "fastjet/ClusterSequence.hh"
 #include "fastjet/contrib/SoftDrop.hh"
-
+#include "fastjet/Selector.hh"
 
 using namespace std;
 using namespace HepMC;
@@ -54,7 +54,7 @@ void parseHepMC(string input_file_name, string output_file_name) {
 
     HepMC::GenEvent::particle_const_iterator it; 
 
-    output_stream << "BeginEvent Version 1 Truth Pythia_8212_Dijet100" << endl;
+    output_stream << "BeginEvent Version 1 Truth Pythia_8212_Dijet100 Prescale 1" << endl;
     
     
     double net_px = 0;
@@ -94,10 +94,14 @@ void parseHepMC(string input_file_name, string output_file_name) {
       // throw std::runtime_error( "ERROR:: Momentum not conserved!" );
     }
 
+    // Filter by eta.
+    fastjet::Selector eta_selector = fastjet::SelectorEtaRange(-2.4, +2.4);
+    truth_particles = eta_selector(truth_particles);
+
     // Cluster all truth particles.
-    fastjet::JetDefinition jet_def(fastjet::antikt_algorithm, 0.5);
-    fastjet::ClusterSequence cs(truth_particles, jet_def);
-    std::vector<fastjet::PseudoJet> truth_jets = sorted_by_pt(cs.inclusive_jets(0.0));
+    // fastjet::JetDefinition jet_def(fastjet::antikt_algorithm, 0.5);
+    // fastjet::ClusterSequence cs(truth_particles, jet_def);
+    // std::vector<fastjet::PseudoJet> truth_jets = sorted_by_pt(cs.inclusive_jets(0.0));
     
     // // Output TAK5 jets.
     // output_stream << "#  TAK5" << "              px              py              pz          energy" << endl;

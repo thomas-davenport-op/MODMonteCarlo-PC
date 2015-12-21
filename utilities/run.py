@@ -26,13 +26,13 @@ def run_analyzer():
 		
 		call(['./bin/generateEvents', 'cards/pythia_card.cmnd', 'data/pythia_truth.hepmc'])
 
-		call(['Herwig++', 'read', 'cards/herwig_card.in'])
-		call(['Herwig++', 'run', 'herwig_run.run', '-d1'])
-		call(['mv', 'herwig_run.hepmc', 'data/herwig_truth.hepmc'])	# Move to correct location.
+		# call(['Herwig++', 'read', 'cards/herwig_card.in'])
+		# call(['Herwig++', 'run', 'herwig_run.run', '-d1'])
+		# call(['mv', 'herwig_run.hepmc', 'data/herwig_truth.hepmc'])	# Move to correct location.
 
-		call(['Sherpa', '-f', 'cards/sherpa_card.dat'])
+		# call(['Sherpa', '-f', 'cards/sherpa_card.dat'])
 
-		call(['mv', 'sherpa_long_MPI.hepmc', 'data/sherpa_truth.hepmc'])	# Move to correct location.
+		# call(['mv', 'sherpa_long_MPI.hepmc', 'data/sherpa_truth.hepmc'])	# Move to correct location.
 
 	def parse_hepmc():
 		call(['./bin/parseHepMC', 'data/pythia_truth.hepmc', 'data/pythia_truth.mod'])
@@ -60,7 +60,7 @@ def run_analyzer():
 	parse_hepmc()
 
 	# Run Detector Simulation. We don't need to parse these because the simulation will write MOD files directly.
-	# run_delphes()
+	run_delphes()
 
 	cleanup()
 

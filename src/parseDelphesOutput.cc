@@ -62,7 +62,7 @@ void parseDelphesOutput(const char * inputFile, const char * outputFileName) {
     cout << "Parsing event number: " << (entry + 1) << " \t";
 
 
-    output_stream << "BeginEvent Version 1 TruthPlusReco Pythia_8212_Delphes_330_Dijet100" << endl;
+    output_stream << "BeginEvent Version 1 TruthPlusReco Pythia_8212_Delphes_330_Dijet100 Prescale 1" << endl;
     
     // Output all jets.
     output_stream << "#  TAK5" << "              px              py              pz          energy" << endl;

@@ -38,6 +38,8 @@
 #include "fastjet/PseudoJet.hh"
 #include "fastjet/JetDefinition.hh"
 #include "fastjet/ClusterSequence.hh"
+#include "fastjet/Selector.hh"
+
 
 using namespace std;
 using namespace fastjet;
@@ -205,7 +207,7 @@ int main(int argc, char *argv[]) {
             truth_pfcs.clear();
             stable_particle_iterator->Reset();
       	
-            output_stream << "BeginEvent Version 1 TruthPlusReco Pythia_8212_Delphes_330_Dijet100" << endl;
+            output_stream << "BeginEvent Version 1 TruthPlusReco Pythia_8212_Delphes_330_Dijet100 Prescale 1" << endl;
 
 
             // Add all truth particles into a vector. We'll cluster this and write out TAK5 for now. We'll write the truth particles themselves later.
@@ -219,10 +221,16 @@ int main(int argc, char *argv[]) {
             }
             truth_pfcs = sorted_by_pt(truth_pfcs);
 
+            // Filter by eta.
+            fastjet::Selector eta_selector = fastjet::SelectorEtaRange(-2.4, +2.4);
+            truth_pfcs = eta_selector(truth_pfcs);
+
+
+
             // Cluster it with FastJet.
-            ClusterSequence cs(truth_pfcs, *definition);
-            truth_jets.clear();
-            truth_jets = sorted_by_pt(cs.inclusive_jets(0.0));
+            // ClusterSequence cs(truth_pfcs, *definition);
+            // truth_jets.clear();
+            // truth_jets = sorted_by_pt(cs.inclusive_jets(0.0));
 
             // // Write out truth jets.
             // output_stream << "#  TAK5" << "              px              py              pz          energy" << endl;
@@ -247,10 +255,13 @@ int main(int argc, char *argv[]) {
             }
             input_list = sorted_by_pt(input_list);
 
+            // Filter by eta.
+            input_list = eta_selector(input_list);
+
       	    // run fastjet clustering 
-      	    ClusterSequence sequence(input_list, *definition);
-            output_list.clear();
-            output_list = sorted_by_pt(sequence.inclusive_jets(0.0));
+      	    // ClusterSequence sequence(input_list, *definition);
+           //  output_list.clear();
+           //  output_list = sorted_by_pt(sequence.inclusive_jets(0.0));
 
             // // Write out reconstructed AK5 jets.
             // output_stream << "#  RAK5" << "              px              py              pz          energy" << endl;
