@@ -225,6 +225,9 @@ int main(int argc, char *argv[]) {
             fastjet::Selector eta_selector = fastjet::SelectorEtaRange(-2.4, +2.4);
             truth_pfcs = eta_selector(truth_pfcs);
 
+            // Filter by pT.
+            fastjet::Selector pT_selector = fastjet::SelectorPtMin(3.0);
+            truth_pfcs = pT_selector(truth_pfcs);
 
 
             // Cluster it with FastJet.
@@ -249,7 +252,7 @@ int main(int argc, char *argv[]) {
               momentum = candidate->Momentum;
               jet = PseudoJet(momentum.Px(), momentum.Py(), momentum.Pz(), momentum.E());
               jet.set_user_index(candidate->PID);
-              if ( (candidate->Status == 1) && ( abs(jet.eta()) < 5.0 ) ) {
+              if (candidate->Status == 1) {
                 input_list.push_back(jet);
               }
             }
@@ -257,6 +260,9 @@ int main(int argc, char *argv[]) {
 
             // Filter by eta.
             input_list = eta_selector(input_list);
+
+            // Filter by pT.
+            input_list = pT_selector(input_list);
 
       	    // run fastjet clustering 
       	    // ClusterSequence sequence(input_list, *definition);

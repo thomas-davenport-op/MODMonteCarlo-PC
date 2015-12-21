@@ -98,6 +98,10 @@ void parseHepMC(string input_file_name, string output_file_name) {
     fastjet::Selector eta_selector = fastjet::SelectorEtaRange(-2.4, +2.4);
     truth_particles = eta_selector(truth_particles);
 
+    // Filter by pT.
+    fastjet::Selector pT_selector = fastjet::SelectorPtMin(3.0);
+    truth_particles = pT_selector(truth_particles);
+
     // Cluster all truth particles.
     // fastjet::JetDefinition jet_def(fastjet::antikt_algorithm, 0.5);
     // fastjet::ClusterSequence cs(truth_particles, jet_def);
