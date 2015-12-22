@@ -11,11 +11,11 @@ def run_analyzer():
 		call(['rm', 'data/pythia_truth.hepmc', 'data/herwig_truth.hepmc', 'data/sherpa_truth.hepmc'])
 		call(['rm', 'data/pythia_reco.hepmc', 'data/herwig_reco.hepmc', 'data/sherpa_reco.hepmc'])
 
-		call(['rm', 'data/pythia_truth.mod', 'data/herwig_truth.mod', 'data/sherpa_truth.mod'])
-		call(['rm', 'data/pythia_reco.mod', 'data/herwig_reco.mod', 'data/sherpa_reco.mod'])
-		call(['rm', 'herwig_run.log', 'herwig_run.out', 'herwig_run.run', 'herwig_run.tex'])
+		# call(['rm', 'data/pythia_truth.mod', 'data/herwig_truth.mod', 'data/sherpa_truth.mod'])
+		# call(['rm', 'data/pythia_reco.mod', 'data/herwig_reco.mod', 'data/sherpa_reco.mod'])
+		# call(['rm', 'herwig_run.log', 'herwig_run.out', 'herwig_run.run', 'herwig_run.tex'])
 		
-		call(['rm', 'MIG_P+P+_7000_NNPDF_2.db', 'MPI_Cross_Sections.dat', 'Results.db', 'Results.db.bak', 'Sherpa_References.tex'])
+		# call(['rm', 'MIG_P+P+_7000_NNPDF_2.db', 'MPI_Cross_Sections.dat', 'Results.db', 'Results.db.bak', 'Sherpa_References.tex'])
 
 	def cleanup():
 		call(['rm', 'herwig_run.log', 'herwig_run.out', 'herwig_run.run', 'herwig_run.tex'])
@@ -36,18 +36,18 @@ def run_analyzer():
 
 	def parse_hepmc():
 		call(['./bin/parseHepMC', 'data/pythia_truth.hepmc', 'data/pythia_truth.mod'])
-		call(['./bin/parseHepMC', 'data/herwig_truth.hepmc', 'data/herwig_truth.mod'])
-		call(['./bin/parseHepMC', 'data/sherpa_truth.hepmc', 'data/sherpa_truth.mod'])
+		# call(['./bin/parseHepMC', 'data/herwig_truth.hepmc', 'data/herwig_truth.mod'])
+		# call(['./bin/parseHepMC', 'data/sherpa_truth.hepmc', 'data/sherpa_truth.mod'])
 
 
 	def run_delphes():
 		call(['./bin/runDelphes', 'cards/delphes_card_CMS_NoFastJet.tcl', 'data/pythia_truth.hepmc'])
-		call(['./bin/runDelphes', 'cards/delphes_card_CMS_NoFastJet.tcl', 'data/herwig_truth.hepmc'])
-		call(['./bin/runDelphes', 'cards/delphes_card_CMS_NoFastJet.tcl', 'data/sherpa_truth.hepmc'])
+		# call(['./bin/runDelphes', 'cards/delphes_card_CMS_NoFastJet.tcl', 'data/herwig_truth.hepmc'])
+		# call(['./bin/runDelphes', 'cards/delphes_card_CMS_NoFastJet.tcl', 'data/sherpa_truth.hepmc'])
 
 		call(['mv', 'data/pythia_truth.hepmc.mod', 'data/pythia_reco.mod'])
-		call(['mv', 'data/herwig_truth.hepmc.mod', 'data/herwig_reco.mod'])
-		call(['mv', 'data/sherpa_truth.hepmc.mod', 'data/sherpa_reco.mod'])
+		# call(['mv', 'data/herwig_truth.hepmc.mod', 'data/herwig_reco.mod'])
+		# call(['mv', 'data/sherpa_truth.hepmc.mod', 'data/sherpa_reco.mod'])
 
 
 	# Delete all generated MC files plus "config" files. It's important to delete everything so that any change to a parameter in the MC-generation process actually trickles through.
@@ -60,7 +60,7 @@ def run_analyzer():
 	parse_hepmc()
 
 	# Run Detector Simulation. We don't need to parse these because the simulation will write MOD files directly.
-	run_delphes()
+	# run_delphes()
 
 	cleanup()
 

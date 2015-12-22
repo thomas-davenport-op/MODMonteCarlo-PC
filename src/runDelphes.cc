@@ -221,13 +221,13 @@ int main(int argc, char *argv[]) {
             }
             truth_pfcs = sorted_by_pt(truth_pfcs);
 
-            // Filter by eta.
-            fastjet::Selector eta_selector = fastjet::SelectorEtaRange(-2.4, +2.4);
-            truth_pfcs = eta_selector(truth_pfcs);
+            // // Filter by eta.
+            // fastjet::Selector eta_selector = fastjet::SelectorEtaRange(-2.4, +2.4);
+            // truth_pfcs = eta_selector(truth_pfcs);
 
-            // Filter by pT.
-            fastjet::Selector pT_selector = fastjet::SelectorPtMin(3.0);
-            truth_pfcs = pT_selector(truth_pfcs);
+            // // Filter by pT.
+            // fastjet::Selector pT_selector = fastjet::SelectorPtMin(3.0);
+            // truth_pfcs = pT_selector(truth_pfcs);
 
 
             // Cluster it with FastJet.
@@ -258,11 +258,11 @@ int main(int argc, char *argv[]) {
             }
             input_list = sorted_by_pt(input_list);
 
-            // Filter by eta.
-            input_list = eta_selector(input_list);
+            // // Filter by eta.
+            // input_list = eta_selector(input_list);
 
-            // Filter by pT.
-            input_list = pT_selector(input_list);
+            // // Filter by pT.
+            // input_list = pT_selector(input_list);
 
       	    // run fastjet clustering 
       	    // ClusterSequence sequence(input_list, *definition);
