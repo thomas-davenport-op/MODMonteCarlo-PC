@@ -7,11 +7,11 @@
 # Technical parameters for this run
 ##################################################
 cd /Herwig/Generators
-set LHCGenerator:NumberOfEvents 100
-set LHCGenerator:RandomNumberGenerator:Seed 241216
-set LHCGenerator:PrintEvent 100
-set LHCGenerator:MaxErrors 100
-set /Herwig/Cuts/JetKtCut:MinKT 100.0*GeV
+set LHCGenerator:NumberOfEvents 50000
+set LHCGenerator:RandomNumberGenerator:Seed 415
+set LHCGenerator:PrintEvent 50000
+set LHCGenerator:MaxErrors 50000
+set /Herwig/Cuts/JetKtCut:MinKT 80.0*GeV
 
 ##################################################
 # LHC physics parameters (override defaults here) 
@@ -27,7 +27,7 @@ set LHCGenerator:EventHandler:LuminosityFunction:Energy 7000.0
 
 
 insert /Herwig/Generators/LHCGenerator:AnalysisHandlers[0] /Herwig/Analysis/HepMCFile
-set /Herwig/Analysis/HepMCFile:PrintEvent 100
+set /Herwig/Analysis/HepMCFile:PrintEvent 50000
 set /Herwig/Analysis/HepMCFile:Format GenEvent
 set /Herwig/Analysis/HepMCFile:Units GeV_mm
 

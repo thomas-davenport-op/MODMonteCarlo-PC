@@ -1,5 +1,5 @@
 (run){
-  EVENTS 100;
+  EVENTS 50000;
   EVENT_OUTPUT=HepMC_Short[sherpa_long_MPI];
   EVENT_GENERATION_MODE U;  
   
@@ -12,10 +12,10 @@
   BEAM_1 2212; BEAM_ENERGY_1 3500;
   BEAM_2 2212; BEAM_ENERGY_2 3500;
 
-  RANDOM_SEED1=262
-  RANDOM_SEED2=806
-  RANDOM_SEED3=52
-  RANDOM_SEED4=0192
+  RANDOM_SEED1=41
+  RANDOM_SEED2=75
+  RANDOM_SEED3=79
+  RANDOM_SEED4=53
 
 
   SHOWER_GENERATOR CSS;
@@ -37,6 +37,6 @@
 
 (selector){
   # NJetFinder <n> <ptmin> <etmin> <D parameter> [<exponent>] [<eta max>] [<mass max>]
-  NJetFinder 1 100.0 0.0 0.5 -1 5.0 5.0;
+  NJetFinder 1 80.0 0.0 0.5 -1 5.0 5.0;
 }(selector);
 
