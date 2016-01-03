@@ -281,17 +281,17 @@ int main(int argc, char *argv[]) {
             //                 << endl;
             // }
 
-            // Next, truth particles.
-            output_stream << "# TRUTH" << "              px              py              pz          energy   pdgId" << endl;
-            for (unsigned k = 0; k < truth_pfcs.size(); k++) {
-              output_stream << "  TRUTH"
-                            << setw(16) << fixed << setprecision(8) << truth_pfcs[k].px()
-                            << setw(16) << fixed << setprecision(8) << truth_pfcs[k].py()
-                            << setw(16) << fixed << setprecision(8) << truth_pfcs[k].pz()
-                            << setw(16) << fixed << setprecision(8) << truth_pfcs[k].E()
-                            << setw(8) << noshowpos << truth_pfcs[k].user_index()
-                            << endl;
-            }
+            // // Next, truth particles.
+            // output_stream << "# TRUTH" << "              px              py              pz          energy   pdgId" << endl;
+            // for (unsigned k = 0; k < truth_pfcs.size(); k++) {
+            //   output_stream << "  TRUTH"
+            //                 << setw(16) << fixed << setprecision(8) << truth_pfcs[k].px()
+            //                 << setw(16) << fixed << setprecision(8) << truth_pfcs[k].py()
+            //                 << setw(16) << fixed << setprecision(8) << truth_pfcs[k].pz()
+            //                 << setw(16) << fixed << setprecision(8) << truth_pfcs[k].E()
+            //                 << setw(8) << noshowpos << truth_pfcs[k].user_index()
+            //                 << endl;
+            // }
 
             // Finally, reconstructed "PFCandidates".
             output_stream << "#  RPFC" << "              px              py              pz          energy   pdgId" << endl;
