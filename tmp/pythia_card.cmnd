@@ -3,5 +3,5 @@ Beams:idB = 2212  ! second beam is also a proton.
 Beams:eCM = 7000. ! the cm energy of collisions.
 HardQCD:all = on
 PhaseSpace:pTHatMin = 70.0
-Random:seed = 773924901
-Main:numberOfEvents = 5
+Random:seed = 219374032
+Main:numberOfEvents = 100

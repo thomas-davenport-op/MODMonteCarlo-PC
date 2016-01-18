@@ -48,8 +48,6 @@ void parseHepMC(string input_file_name, string output_file_name, string mc_heade
   HepMC::GenEvent* event = ascii_in.read_next_event();
 
   while (event) {
-
-    cout << "Bingo!" << endl;
   
     icount++;
     
@@ -149,7 +147,7 @@ void parseHepMC(string input_file_name, string output_file_name, string mc_heade
     ascii_in >> event;
   }
 
-  
+
   output_file << output_stream.rdbuf();
 
   std::cout << icount << " events found. And I'm done." << std::endl;
