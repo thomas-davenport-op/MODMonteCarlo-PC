@@ -15,22 +15,29 @@ using namespace HepMC;
 
 
 
-void parseHepMC(string input_file_name, string output_file_name);
+void parseHepMC(string input_file_name, string output_file_name, string mc_header);
 
 
 int main(int argc, char* argv[]) {
 
   string input_file_name = argv[1];
   string output_file_name = argv[2];
+  string mc_header = argv[3];
 
-  parseHepMC(input_file_name, output_file_name);
+  cout << "==================== Parsing HEPMC ====================" << endl << endl;
+  cout << "Input File  : " << input_file_name << endl;
+  cout << "Output File : " << output_file_name << endl;
+  cout << "MC Header   : " << mc_header << endl << endl;
+  cout << "==================== Parsing HEPMC ====================" << endl << endl;
+
+  parseHepMC(input_file_name, output_file_name, mc_header);
   // zg_stuff();
 
   return 0;
 }
 
 
-void parseHepMC(string input_file_name, string output_file_name) {
+void parseHepMC(string input_file_name, string output_file_name, string mc_header) {
 
   ofstream output_file(output_file_name, ios::out);
 
@@ -41,20 +48,25 @@ void parseHepMC(string input_file_name, string output_file_name) {
   HepMC::GenEvent* event = ascii_in.read_next_event();
 
   while (event) {
+
+    cout << "Bingo!" << endl;
   
     icount++;
     
-    if (icount % 100 == 0)
+    if (icount % 100 == 0) {
       std::cout << "Processing Event Number " << icount << std::endl;
+      output_file << output_stream.rdbuf();
+      output_stream.clear();
+    }
     
     // cout << "Number of particles: " << event->particles_size() << endl;
     // cout << "Number of vertices: " << event->vertices_size() << endl;
 
     GenEvent::particle_const_iterator particle = event->particles_begin();
 
-    HepMC::GenEvent::particle_const_iterator it; 
+    HepMC::GenEvent::particle_const_iterator it;
 
-    output_stream << "BeginEvent Version 1 Truth Pythia_8212_Dijet100 Prescale 1" << endl;
+    output_stream << "BeginEvent Version 5 Truth " << mc_header << " Prescale 1" << endl;
     
     
     double net_px = 0;
@@ -137,7 +149,7 @@ void parseHepMC(string input_file_name, string output_file_name) {
     ascii_in >> event;
   }
 
-
+  
   output_file << output_stream.rdbuf();
 
   std::cout << icount << " events found. And I'm done." << std::endl;

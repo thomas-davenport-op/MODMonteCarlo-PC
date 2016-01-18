@@ -43,3 +43,8 @@ Things to do:
 
   Sometimes adding them to `~/.bashrc~ doesn't work. So enter the following manually:
   `export LD_LIBRARY_PATH=/home/aashish/hepmc/lib:/home/aashish/pythia8212/lib`
+
+  `dyld: Library not loaded: libpythia8.dylib
+  Referenced from: /Users/aashish/MODMonteCarlo/bin/generateEvents
+  Reason: image not found
+	`, in OSX, can be fixed by simply copying libpythia8.dylib from pythia8/lib/ to /usr/local/lib, assuming your pythia installation is in `/usr/local/lib/`.

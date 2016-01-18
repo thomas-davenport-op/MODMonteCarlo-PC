@@ -1,5 +1,5 @@
 (run){
-  EVENTS 50000;
+  EVENTS 200000;
   EVENT_OUTPUT=HepMC_Short[sherpa_long_MPI];
   EVENT_GENERATION_MODE U;  
   
@@ -37,6 +37,6 @@
 
 (selector){
   # NJetFinder <n> <ptmin> <etmin> <D parameter> [<exponent>] [<eta max>] [<mass max>]
-  NJetFinder 1 80.0 0.0 0.5 -1 5.0 5.0;
+  NJetFinder 1 100.0 0.0 0.5 -1 5.0 5.0;
 }(selector);
 

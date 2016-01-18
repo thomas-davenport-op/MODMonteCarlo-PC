@@ -24,19 +24,19 @@ def run_analyzer():
 	
 	def run_mc_programs():
 		
-		call(['./bin/generateEvents', 'cards/pythia_card.cmnd', 'data/pythia_truth.hepmc'])
+		# call(['./bin/generateEvents', 'cards/pythia_card.cmnd', 'data/pythia_truth.hepmc'])
 
-		call(['Herwig++', 'read', 'cards/herwig_card.in'])
-		call(['Herwig++', 'run', 'herwig_run.run', '-d1'])
-		call(['mv', 'herwig_run.hepmc', 'data/herwig_truth.hepmc'])	# Move to correct location.
+		# call(['Herwig++', 'read', 'cards/herwig_card.in'])
+		# call(['Herwig++', 'run', 'herwig_run.run', '-d1'])
+		# call(['mv', 'herwig_run.hepmc', 'data/herwig_truth.hepmc'])	# Move to correct location.
 
 		call(['Sherpa', '-f', 'cards/sherpa_card.dat'])
 
 		call(['mv', 'sherpa_long_MPI.hepmc', 'data/sherpa_truth.hepmc'])	# Move to correct location.
 
 	def parse_hepmc():
-		call(['./bin/parseHepMC', 'data/pythia_truth.hepmc', 'data/pythia_truth.mod'])
-		call(['./bin/parseHepMC', 'data/herwig_truth.hepmc', 'data/herwig_truth.mod'])
+		# call(['./bin/parseHepMC', 'data/pythia_truth.hepmc', 'data/pythia_truth.mod'])
+		# call(['./bin/parseHepMC', 'data/herwig_truth.hepmc', 'data/herwig_truth.mod'])
 		call(['./bin/parseHepMC', 'data/sherpa_truth.hepmc', 'data/sherpa_truth.mod'])
 
 
@@ -51,7 +51,7 @@ def run_analyzer():
 
 
 	# Delete all generated MC files plus "config" files. It's important to delete everything so that any change to a parameter in the MC-generation process actually trickles through.
-	delete_everything()
+	# delete_everything()
 	
 	# Run the three MC programs.
 	run_mc_programs()
@@ -60,7 +60,7 @@ def run_analyzer():
 	parse_hepmc()
 
 	# Run Detector Simulation. We don't need to parse these because the simulation will write MOD files directly.
-	run_delphes()
+	# run_delphes()
 
 	cleanup()
 
