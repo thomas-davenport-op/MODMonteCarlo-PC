@@ -13,7 +13,7 @@ total_number_of_events = int(sys.argv[2])
 
 
 cards_directory = "./cards"
-events_per_file = 100
+events_per_file = 10000
 
 def get_number_of_events_per_file():
 	if total_number_of_events < events_per_file:
@@ -43,8 +43,8 @@ def get_pT_min(mc_program, card_file):
 
 def get_card(mc_program, f):
 	
-	random_seeds = random.sample(range(100000), 4)
-	random_seed = random.randint(0, 100000)
+	random_seeds = random.sample(range(1000000), 4)
+	random_seed = random.randint(0, 1000000)
 
 	number_of_events = get_number_of_events_per_file()
 
@@ -165,8 +165,10 @@ def process_mc(mc_program, output_directory):
 
 start = time()
 
-process_mc("pythia", output_dir)
-process_mc("herwig", output_dir)
+# process_mc("pythia", output_dir)
+
+# process_mc("herwig", output_dir)
+
 process_mc("sherpa", output_dir)
 
 end = time()
