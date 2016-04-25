@@ -64,7 +64,12 @@ void parseHepMC(string input_file_name, string output_file_name, string mc_heade
 
     HepMC::GenEvent::particle_const_iterator it;
 
-    output_stream << "BeginEvent Version 5 Truth " << mc_header << " Prescale 1" << endl;
+    WeightContainer & weight_container = event->weights();
+
+    // weight_container.print(cout);
+    // cout << weight_container[0] << weight_container[1] << endl;
+
+    output_stream << "BeginEvent Version 5 Truth " << mc_header << " Prescale " << weight_container[0] << endl;
     
     
     double net_px = 0;
