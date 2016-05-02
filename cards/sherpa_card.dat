@@ -37,6 +37,6 @@
 
 (selector){
   # NJetFinder <n> <ptmin> <etmin> <D parameter> [<exponent>] [<eta max>] [<mass max>]
-  NJetFinder 1 70.0 0.0 0.5 -1 6.3 10.0;
+  NJetFinder 1 70.0 0.0 0.5 -1;
 }(selector);
 

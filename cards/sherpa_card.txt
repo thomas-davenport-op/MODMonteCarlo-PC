@@ -1,0 +1,45 @@
+5.7.4 Jet finders
+-----------------
+
+There are three different types of jet finders
+
+'JetFinder'
+     k_T-algorithm
+'ConeFinder'
+     cone-algorithm
+'NJetFinder'
+     k_T-type algorithm to select on a given number of jets
+
+Their respective syntax is
+JetFinder  <ycut>[<ycut decay 1>[<ycut decay 11>...]...]... <D parameter>
+ConeFinder <min R>
+NJetFinder <n> <ptmin> <etmin> <D parameter> [<exponent>] [<eta max>] [<mass max>]
+FastjetFinder <algorithm> <n> <ptmin> <etmin> <dr> [<f(siscone)>=0.75] [<eta-max>] [<y-max>] [<bmode>]
+
+For 'JetFinder', it is possible to give different values of ycut in
+individual subprocesses of a production-decay chain.  The square
+brackets are then used to denote the decays.  In case only one uniform
+set of ycut is to be used, the square brackets are left out.
+
+'<ycut>', '<min R>' and '<D parameter>' are floating point numbers,
+which can also be given in a form that is understood by the internal
+algebra interpreter, see *note Interpreter::.
+
+The 'NJetFinder' allows to select for kinematic configurations with at
+least '<n>' jets that satisfy both, the '<ptmin>' and the '<etmin>'
+minimum requirements and that are in a PseudoRapidity region |eta|<'<eta
+max>'.  The '<exponent>' allows to apply a kt-algorithm (1) or an
+anti-kt algorithm (-1).  As only massless partons are clustered by
+default, the '<mass max>' allows to also include partons with a mass up
+to the specified values.  This is useful e.g.  in calculations with
+massive b-quarks which shall nonetheless satisfy jet criteria.
+
+The final option 'FastjetFinder' allows to use the FastJet plugin if
+enabled during configuration.  It takes the following mandatory
+arguments: '<algorithm>' can take the values
+'kt,antikt,cambridge,siscone', '<n>' is the minimum number of jets to be
+found, '<ptmin>' and '<etmin>' are the minimum transverse momentum
+and/or energy, '<dr>' is the radial parameter.  Optional arguments are:
+'<f(siscone)>' (default 0.75), '<eta-max>' and '<y-max>' as maximal
+absolute (pseudo-)rapidity (default infinity), '<b-mode>' sets the
+B-tagging mode (default 0).  For details see *note Scale setters::.

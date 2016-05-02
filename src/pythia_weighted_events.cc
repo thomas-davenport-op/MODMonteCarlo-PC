@@ -106,7 +106,8 @@ int main(int argc, char* argv[]) {
         // cout << weight << endl;
       }
       else {
-       hepmcevt->weights().push_back(weight * pow3(pTHat));   
+       // hepmcevt->weights().push_back(weight * pow3(pTHat));
+       hepmcevt->weights().push_back(weight);
        // cout << weight * pow3(pTHat) << endl;
       }
       
@@ -130,6 +131,11 @@ int main(int argc, char* argv[]) {
       delete hepmcevt;
     }
 
+
+     double sigmaNorm = (info.sigmaGen() / info.weightSum());
+
+     cout << "Total weight sum = " << info.weightSum() << endl;
+     cout << "Total cross-section sum = " << info.sigmaGen() << endl;
     // pythia.stat();
 
     // End of pT-bin loop.
