@@ -1,45 +1,12 @@
-
 Beams:idA = 2212  ! first incoming beam is a 2212, i.e. a proton.
 Beams:idB = 2212  ! second beam is also a proton.
 Beams:eCM = 7000. ! the cm energy of collisions.
 
 HardQCD:all = on
 
-! PhaseSpace:pTHatMin = 85.0	
-
 Random:setSeed = on
 Random:seed = 120818
-
 
 Main:numberOfEvents = 700
 
 
-Main:numberOfSubruns = 7
-
-Main:subrun = 0
-PhaseSpace:pTHatMin = 85.
-PhaseSpace:pTHatMax = 115.
-
-Main:subrun = 1
-PhaseSpace:pTHatMin = 115.
-PhaseSpace:pTHatMax = 150.
-
-Main:subrun = 2
-PhaseSpace:pTHatMin = 150.
-PhaseSpace:pTHatMax = 200.
-
-Main:subrun = 3
-PhaseSpace:pTHatMin = 200.
-PhaseSpace:pTHatMax = 250.
-
-Main:subrun = 4
-PhaseSpace:pTHatMin = 250.
-PhaseSpace:pTHatMax = 500.
-
-Main:subrun = 5
-PhaseSpace:pTHatMin = 500.
-PhaseSpace:pTHatMax = 750.
-
-Main:subrun = 6
-PhaseSpace:pTHatMin = 750.
-PhaseSpace:pTHatMax = 0.              ! 0. means open-ended
