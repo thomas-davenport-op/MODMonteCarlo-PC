@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
 
   double sigmaNorm = (info.sigmaGen() / info.weightSum());
 
-  cout << "Total weight Sum = " << info.weightSum() << endl;
+  cout << "Total Weight Sum = " << info.weightSum() << endl;
   cout << "Total Cross-Section Sum = " << info.sigmaGen() << endl;
   // pythia.stat();
 

@@ -7,6 +7,6 @@ HardQCD:all = on
 Random:setSeed = on
 Random:seed = 120818
 
-Main:numberOfEvents = 700
+Main:numberOfEvents = 25000
 
 
