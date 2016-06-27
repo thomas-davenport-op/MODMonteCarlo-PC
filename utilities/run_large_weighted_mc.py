@@ -13,7 +13,7 @@ total_number_of_events = int(sys.argv[2])
 
 
 cards_directory = "./cards"
-events_per_file = 100
+events_per_file = 20000
 remove_hepmc_files = True
 
 def get_number_of_events_per_file():
@@ -125,10 +125,10 @@ def remove_temp_file(temp_card_file):
 def process_mc(mc_program, output_directory):
 
 	if mc_program == "pythia":
-		header = "Pythia_8215"
+		header = "Pythia_8217"
 		card_file = "pythia_weighted_card.cmnd"
 	elif mc_program == "herwig":
-		header = "Herwig_7"
+		header = "Herwig_702"
 		card_file = "herwig_weighted_card.in"
 	elif mc_program == "sherpa":
 		raise Exception("Sherpa not implemented yet!")
@@ -180,9 +180,9 @@ def process_mc(mc_program, output_directory):
 
 start = time()
 
-# process_mc("pythia", output_dir)
+process_mc("pythia", output_dir)
 
-process_mc("herwig", output_dir)
+# process_mc("herwig", output_dir)
 
 # process_mc("sherpa", output_dir)
 
