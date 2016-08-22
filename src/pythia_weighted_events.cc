@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
   int nEvent = pythia.mode("Main:numberOfEvents");
 
   // Mode 1: set up pT bins. Keep the last one open-ended.
-  double pTlimit[9] = {10., 85., 115., 150., 200., 250., 500., 750., 0.};
+  double pTlimit[7] = {40., 85., 115., 150., 200., 250., 0.};
 
 
   // Mode 2: The whole range in one step, but pT-weighted.

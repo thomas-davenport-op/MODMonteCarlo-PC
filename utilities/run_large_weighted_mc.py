@@ -125,7 +125,7 @@ def remove_temp_file(temp_card_file):
 def process_mc(mc_program, output_directory):
 
 	if mc_program == "pythia":
-		header = "Pythia_8217"
+		header = "Pythia_8219"
 		card_file = "pythia_weighted_card.cmnd"
 	elif mc_program == "herwig":
 		header = "Herwig_702"

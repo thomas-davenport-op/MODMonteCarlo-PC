@@ -1,8 +1,12 @@
 Beams:idA = 2212  ! first incoming beam is a 2212, i.e. a proton.
 Beams:idB = 2212  ! second beam is also a proton.
 Beams:eCM = 7000. ! the cm energy of collisions.
+
 HardQCD:all = on
+
 PhaseSpace:pTHatMin = 85.0
+
 Random:setSeed = on
 Random:seed = 120818
+
 Main:numberOfEvents = 700
