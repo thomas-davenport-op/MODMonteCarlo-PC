@@ -13,7 +13,7 @@ total_number_of_events = int(sys.argv[2])
 
 
 cards_directory = "./cards"
-events_per_file = 10000
+events_per_file = 20000
 
 def get_number_of_events_per_file():
 	if total_number_of_events < events_per_file:

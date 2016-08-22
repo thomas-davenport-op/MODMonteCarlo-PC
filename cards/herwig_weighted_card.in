@@ -10,14 +10,14 @@ cd /Herwig/Generators
 set LHCGenerator:NumberOfEvents 25000
 set LHCGenerator:PrintEvent 25000
 set LHCGenerator:RandomNumberGenerator:Seed 415
-set /Herwig/Cuts/JetKtCut:MinKT 10.0*GeV
+set /Herwig/Cuts/JetKtCut:MinKT 40.0*GeV
 
 mkdir /Herwig/Weights
 cd /Herwig/Weights
 create ThePEG::ReweightMinPT reweightMinPT ReweightMinPT.so
 cd /
 set /Herwig/Weights/reweightMinPT:Power 4
-set /Herwig/Weights/reweightMinPT:Scale 10.0*GeV
+set /Herwig/Weights/reweightMinPT:Scale 40.0*GeV
 insert /Herwig/MatrixElements/SimpleQCD:Preweights[0] /Herwig/Weights/reweightMinPT
 
 

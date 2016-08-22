@@ -131,9 +131,8 @@ def process_mc(mc_program, output_directory):
 		header = "Herwig_702"
 		card_file = "herwig_weighted_card.in"
 	elif mc_program == "sherpa":
-		raise Exception("Sherpa not implemented yet!")
-		# header = "Sherpa_220"
-		# card_file = "sherpa_card.dat"
+		header = "Sherpa_221"
+		card_file = "sherpa_weighted_card.dat"
 
 	cleanup()
 	
@@ -182,9 +181,9 @@ start = time()
 
 # process_mc("pythia", output_dir)
 
-process_mc("herwig", output_dir)
+# process_mc("herwig", output_dir)
 
-# process_mc("sherpa", output_dir)
+process_mc("sherpa", output_dir)
 
 end = time()
 

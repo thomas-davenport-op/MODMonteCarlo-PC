@@ -1,0 +1,43 @@
+(run){
+  EVENTS 2000;
+  EVENT_OUTPUT=HepMC_Short[sherpa_long_MPI];
+  EVENT_GENERATION_MODE W;
+  
+  # Switch on/off Fragmentation and Beam remnants together to allow for color connectionss
+  #FRAGMENTATION Off; 
+  #BEAM_REMNANTS 0;
+
+  MI_HANDLER Amisic;
+
+  BEAM_1 2212; BEAM_ENERGY_1 3500;
+  BEAM_2 2212; BEAM_ENERGY_2 3500;
+
+  RANDOM_SEED1=41
+  RANDOM_SEED2=75
+  RANDOM_SEED3=79
+  RANDOM_SEED4=53
+
+
+  SHOWER_GENERATOR CSS;
+  #SCALES FASTJET[A:antikt,PT:40.,ET:0,R:1.0,M:0]{H_T2*0.25}{H_T2*0.25}{PPerp2(p[3])}
+  SCALES VAR{0.25*H_T2}{0.25*H_T2};
+  #SCALES VAR{10000.}{10000.};
+  
+  # model setup
+  MODEL SM;
+
+}(run)
+
+(processes){
+  Process 93 93 -> 93 93
+  Enhance_Function VAR{PPerp2(p[4])} {}
+  # This was Order_EW 0; but that's obselote syntax. 
+  Order (*,0);	
+  End process;
+}(processes)
+
+(selector){
+  # NJetFinder <n> <ptmin> <etmin> <D parameter> [<exponent>] [<eta max>] [<mass max>]
+  NJetFinder 1 40.0 0.0 0.5 -1;
+}(selector);
+
