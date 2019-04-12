@@ -1,3 +1,18 @@
+# MODMonteCarlo-PC
+
+Instructions for getting MODMonteCarlo-PC working on the CTEQ VM:
+
+1. Update fastjet:
+	Follow the instructions at http://fastjet.fr/quickstart.html
+
+
+
+
+
+
+
+
+### What follows is the original MODMonteCarlo README
 # MODMonteCarlo
 
 
