@@ -2,8 +2,15 @@
 
 Instructions for getting MODMonteCarlo-PC working on the CTEQ VM:
 
-1. Update fastjet:
-	Follow the instructions at http://fastjet.fr/quickstart.html
+1. Update apt-get:
+	`sudo apt-get update`
+
+2. Install git :
+	`sudo apt install git`
+
+2. Update fastjet:
+	Follow the first two sets of instructions at http://fastjet.fr/quickstart.html with the following adjustments:
+	a) 
 
 
 
@@ -12,7 +19,7 @@ Instructions for getting MODMonteCarlo-PC working on the CTEQ VM:
 
 
 
-### What follows is the original MODMonteCarlo README
+### !!What follows is the original MODMonteCarlo README!!
 # MODMonteCarlo
 
 
