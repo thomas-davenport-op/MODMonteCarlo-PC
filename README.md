@@ -3,23 +3,43 @@
 Instructions for getting MODMonteCarlo-PC working on the CTEQ VM:
 
 1. Update apt-get:
-	`sudo apt-get update`
+   - `sudo apt-get update`
 
 2. Install git :
-	`sudo apt install git`
+   - `sudo apt install git`
 
 3. Update fastjet using the first two sets of instructions at http://fastjet.fr/quickstart.html with the following adjustments:
-   -the option for the configure command should be : `--prefix=/opt/hep` 
-   -use sudo to run the make install command: `sudo make install`
+   - the option for the configure command should be : `--prefix=/opt/hep` 
+   - use sudo to run the make install command: `sudo make install`
 
 4. Install fastjet-contrib:
 ```
 curl -O http://fastjet.hepforge.org/contrib/downloads/fjcontrib-1.041.tar.gz
 tar -xvzf fjcontrib-1.041.tar.gz
 cd fjcontrib-1.041.tar.gz
+
+./configure --fastjet-config=/opt/hep/bin/fastjet-config --prefix=/opt/hep
+make
+sudo make install
 ```
 
+5. Clone the MODMonteCarlo-PC git: (from your home directory)
+```
+mkdir MOD
+cd MOD
+git clone https://github.com/thomas-davenport-op/MODMonteCarlo-PC
+cd MODMonteCarlo-PC
+mkdir data
+mkdir bin
+make
+```
 
+You should be able to use the python scripts in utilities to generate events
+try (from the MOD-MonteCarlo-PC) directory:
+
+`python ./utilities/run-large-weighted-mc.py ./data 100`
+
+This should generate a .mod data file in the .data/pythia directory with 100 events. See how long that takes. Try generating a few thousand events and see how long it takes.
 
 
 
