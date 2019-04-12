@@ -1,5 +1,5 @@
-PYTHIA_INC = $(PYTHIA8)/include
-PYTHIA_LIB = $(PYTHIA8)/lib
+PYTHIA_INC = $/opt/hep/include
+PYTHIA_LIB = $/opt/hep/lib
 
 HEPMC2_BIN=/usr/local/bin
 HEPMC2_INCLUDE=/usr/local/include
@@ -9,8 +9,8 @@ DELPHES_INC = $(DELPHES)
 DELPHES_LIB = $(DELPHES)
 
 
-PATH_TO_FASTJET = /usr/local/bin/fastjet-config
-INCLUDE_FASTJET = /usr/local/include
+PATH_TO_FASTJET = /opt/hep/bin/fastjet-config
+INCLUDE_FASTJET = /opt/hep/include
 
 FASTINC = `$(PATH_TO_FASTJET) --cxxflags`
 FASTLIB = `$(PATH_TO_FASTJET) --libs --plugins` -lRecursiveTools
@@ -27,8 +27,9 @@ CXXFLAGS= -std=c++11
 # 	$(CXX) $(CXXFLAGS) -I$(PYTHIA_INC) -I$(HEPMC2_INCLUDE) src/generateEvents.cc -o bin/generateEvents -lpythia8 -ldl -L$(PYTHIA_LIB) -lHepMC -L$(HEPMC2_LIB) -ldl -I$(INCLUDE_FASTJET) `$(PATH_TO_FASTJET)  --libs --plugins` -lRecursiveTools
 
 
-all: src/pythia_weighted_events.cc
+all: src/pythia_weighted_events.cc src/parseHepMC.cc
 	$(CXX) $(CXXFLAGS) -I$(PYTHIA_INC) -I$(HEPMC2_INCLUDE) src/pythia_weighted_events.cc -o bin/pythia_weighted_events -lpythia8 -ldl -L$(PYTHIA_LIB) -lHepMC -L$(HEPMC2_LIB) -ldl -I$(INCLUDE_FASTJET) `$(PATH_TO_FASTJET)  --libs --plugins` -lRecursiveTools
+	$(CXX) $(CXXFLAGS) -I$(HEPMC2_INCLUDE) src/parseHepMC.cc -o bin/parseHepMC -lHepMC -L$(HEPMC2_LIB) -ldl -I$(INCLUDE_FASTJET) `$(PATH_TO_FASTJET) --libs --plugins` -lRecursiveTools
 
 
 
