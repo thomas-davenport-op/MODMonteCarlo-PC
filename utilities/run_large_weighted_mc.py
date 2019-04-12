@@ -179,11 +179,11 @@ def process_mc(mc_program, output_directory):
 
 start = time()
 
-# process_mc("pythia", output_dir)
+process_mc("pythia", output_dir)
 
 # process_mc("herwig", output_dir)
 
-process_mc("sherpa", output_dir)
+# process_mc("sherpa", output_dir)
 
 end = time()
 
