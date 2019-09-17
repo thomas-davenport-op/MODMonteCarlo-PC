@@ -20,11 +20,12 @@ Instructions for getting MODMonteCarlo-PC working on the CTEQ VM:
       `fastjet-config --cxxflags --libs --plugins`
    ```
    
-4. Install fastjet-contrib:
+4. Install fastjet-contrib: 
+    (check https://fastjet.hepforge.org/contrib/ for the latest version number and replace it appropriately below)
 ```
-curl -O http://fastjet.hepforge.org/contrib/downloads/fjcontrib-1.041.tar.gz
-tar -xvzf fjcontrib-1.041.tar.gz
-cd fjcontrib-1.041.tar.gz
+curl -O http://fastjet.hepforge.org/contrib/downloads/fjcontrib-1.042.tar.gz
+tar -xvzf fjcontrib-1.042.tar.gz
+cd fjcontrib-1.042.tar.gz
 
 ./configure --fastjet-config=/opt/hep/bin/fastjet-config --prefix=/opt/hep
 make
