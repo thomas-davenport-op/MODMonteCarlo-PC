@@ -14,7 +14,7 @@ Instructions for getting MODMonteCarlo-PC working on the CTEQ VM:
    - use sudo to run the make install command: `sudo make install` (fourth line of second box)
    
 3a. (optional) To complete the sample fast-jet program follow the rest of instructions on the above link with the following adjustment:
-   - the compile command should be:
+   - the compile command should be: (first two lines of the last gray box)
    ```
    g++ short-example.cc -o short-example \
       `fastjet-config --cxxflags --libs --plugins`
