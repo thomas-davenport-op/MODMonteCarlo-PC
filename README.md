@@ -40,7 +40,7 @@ make
 sudo make install
 ```
 
-5. Clone the MODMonteCarlo-PC git: (from your home directory)
+5. Clone the MODMonteCarlo-PC git: (from your home directory `cd ~`)
 ```
 mkdir MOD
 cd MOD
