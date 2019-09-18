@@ -54,7 +54,7 @@ make
 You should be able to use the python scripts in utilities to generate events
 try (from the MOD-MonteCarlo-PC) directory:
 
-`python ./utilities/run-large-weighted-mc.py ./data 100`
+`python ./utilities/run_large_weighted_mc.py ./data 100`
 
 This should generate a .mod data file in the .data/pythia directory with 100 events. See how long that takes. Try generating a few thousand events and see how long it takes.
 
