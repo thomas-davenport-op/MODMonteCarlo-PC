@@ -1,5 +1,13 @@
 # MODMonteCarlo-PC
 
+CTEQ VM settings adjustments:
+
+1. Before running, under "Settings>Display" change the "Graphics Controller" obtion to "VBoxSVGA".
+
+2. When you start the VM, under view click on "Auto-resize Guest display"
+
+Now the Linux screen shoul automaticall adjust to the size of the window you make on your computer (with some delay)
+
 Instructions for getting MODMonteCarlo-PC working on the CTEQ VM:
 
 1. Update apt-get and upgrade the default software:
@@ -51,7 +59,13 @@ try (from the MOD-MonteCarlo-PC) directory:
 This should generate a .mod data file in the .data/pythia directory with 100 events. See how long that takes. Try generating a few thousand events and see how long it takes.
 
 
+# Optional Installs
 
+Emacs:
+```
+sudo apt-get install emacs
+sudo apt-get install at-spi2-core
+```
 
 
 ### !!What follows is the original MODMonteCarlo README!!
