@@ -40,7 +40,7 @@ cd fjcontrib-1.042
    - Open the Makefile in leafpad: `leafpad Makefile`
    - Edit the `CXXFlags` line to read: `CXXFLAGS= -std=c++11 -O3 -Wall -g -fPIC`
    - Save the Makefile and close leafpad
-   - Navigate to the LundPlane folder: `cd ../LunPlane`
+   - Navigate to the LundPlane folder: `cd ../LundPlane`
    - Make the same edit to the makefile as above.
    - Navigate back to teh fjcontrib folder: `cd ..`
    - Continue with the installation of fjcontrib:
