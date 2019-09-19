@@ -18,7 +18,7 @@ Instructions for getting MODMonteCarlo-PC working on the CTEQ VM:
    - `sudo apt install git`
 
 3. Update fastjet using the first two sets of instructions at http://fastjet.fr/quickstart.html with the following adjustments:
-   - the option for the configure command should be : `--prefix=/opt/hep` (first line of second box) 
+   - the configure command should be : `./configure --prefix=/opt/hep` (first line of second box) 
    - use sudo to run the make install command: `sudo make install` (fourth line of second box)
    
 3a. (optional) To complete the sample fast-jet program follow the rest of instructions on the above link with the following adjustment:
