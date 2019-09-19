@@ -34,7 +34,18 @@ Instructions for getting MODMonteCarlo-PC working on the CTEQ VM:
 curl -O https://fastjet.hepforge.org/contrib/downloads/fjcontrib-1.042.tar.gz
 tar -xvzf fjcontrib-1.042.tar.gz
 cd fjcontrib-1.042
+```
+   - We will need to edit the Makefile for two of the contributions to get them to compile correctly.
+   - Navigate to the ConstituentSubtractor folder: `cd ConstituentSubtractor`
+   - Open the Makefile in leafpad: `leafpad Makefile`
+   - Edit the `CXXFlags` line to read: `CXXFLAGS= -std=c++11 -O3 -Wall -g -fPIC`
+   - Save the Makefile and close leafpad
+   - Navigate to the LundPlane folder: `cd ../LunPlane`
+   - Make the same edit to the makefile as above.
+   - Navigate back to teh fjcontrib folder: `cd ..`
+   - Continue with the installation of fjcontrib:
 
+```
 ./configure --fastjet-config=/opt/hep/bin/fastjet-config --prefix=/opt/hep
 make
 sudo make install
