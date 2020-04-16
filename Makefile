@@ -1,5 +1,5 @@
-PYTHIA_INC = $/opt/hep/include
-PYTHIA_LIB = $/opt/hep/lib
+PYTHIA_INC = /home/cms-opendata/pythia8244/include
+PYTHIA_LIB = /home/cms-opendata/pythia8244/lib
 
 HEPMC2_BIN=/usr/local/bin
 HEPMC2_INCLUDE=/usr/local/include
@@ -9,8 +9,8 @@ DELPHES_INC = $(DELPHES)
 DELPHES_LIB = $(DELPHES)
 
 
-PATH_TO_FASTJET = /opt/hep/bin/fastjet-config
-INCLUDE_FASTJET = /opt/hep/include
+PATH_TO_FASTJET = /home/cms-opendata/fastjet-install/bin/fastjet-config
+INCLUDE_FASTJET = /home/cms-opendata/fastjet-install/include
 
 FASTINC = `$(PATH_TO_FASTJET) --cxxflags`
 FASTLIB = `$(PATH_TO_FASTJET) --libs --plugins` -lRecursiveTools
